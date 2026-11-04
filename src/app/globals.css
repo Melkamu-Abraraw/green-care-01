@@ -1,26 +1,199 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Brand palette. Generates utilities such as bg-brand-gold and text-brand-dark. Each product's glow color lives in ProductShowcase.js. */
+@theme {
+  --color-brand-gold: #d7a229;
+  --color-brand-dark: #0c2818;
+  --color-brand-green: #517b38;
+  --color-brand-white: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--color-brand-white);
+  color: var(--color-brand-dark);
+  font-family: var(--font-catamaran), sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-playfair), serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.site-header {
+  --nav-hover: var(--color-brand-green);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--color-brand-white);
+  color: var(--color-brand-dark);
+}
+/* On pages with a video hero the navbar floats over it, then turns white with dark text once scrolled. */
+body:has(.hero) .site-header {
+  --nav-hover: var(--color-brand-gold);
+  position: fixed;
+  inset-inline: 0;
+  background: transparent;
+  color: var(--color-brand-white);
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
+}
+body:has(.hero) .site-header[data-scrolled="true"] {
+  --nav-hover: var(--color-brand-green);
+  background: var(--color-brand-white);
+  color: var(--color-brand-dark);
+  box-shadow: 0 1px 8px rgb(0 0 0 / 0.12);
+}
+
+.hero-subtitle {
+  font-family: var(--font-catamaran), sans-serif;
+  font-size: clamp(1.25rem, 5vw, 2.5rem);
+  font-weight: 200;
+  line-height: 1.3;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.5);
+}
+.hero-title {
+  font-size: clamp(2.25rem, 11vw, 5.625rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-shadow: 0 2px 12px rgb(0 0 0 / 0.4);
+}
+.hero-button {
+  font-family: var(--font-montserrat), sans-serif;
+}
+
+/* Letters drop in one by one, hold, then drop out. Percentages are of the 18s cycle: in 0-2s, hold to 5s, out by 5.8s. */
+.hero-char {
+  display: inline-block;
+  animation: hero-char-cycle 18s infinite both;
+}
+@keyframes hero-char-cycle {
+  0% {
+    transform: translateY(-100%) rotate(35deg);
+    animation-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  11.11%,
+  27.78% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  32.22%,
+  100% {
+    transform: translateY(100%) rotate(-35deg);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Endless scroll: the track holds identical copies, so sliding by half lands on an identical frame. */
+.category-strip-track {
+  animation: category-strip-scroll 100s linear infinite;
+}
+.category-strip:hover .category-strip-track {
+  animation-play-state: paused;
+}
+@keyframes category-strip-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mouse users see the card buttons on hover; touch screens have no hover, so they stay visible there. */
+@media (hover: hover) {
+  .product-card-action {
+    opacity: 0;
+    transition:
+      opacity 300ms ease,
+      transform 300ms ease,
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+  .product-card-cart {
+    transform: translateY(0.5rem);
+  }
+  .product-card:hover .product-card-action,
+  .product-card:focus-within .product-card-action {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Page load: the navbar drops in, the video settles, then the hero's icons and button rise into place. */
+.site-header {
+  animation: load-drop 700ms ease-out backwards;
+}
+.hero-video {
+  animation: load-settle 2400ms ease-out backwards;
+}
+.hero-socials {
+  animation: load-rise 800ms ease-out 400ms backwards;
+}
+.hero-button {
+  animation: load-rise 800ms ease-out 800ms backwards;
+}
+@keyframes load-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+@keyframes load-settle {
+  from {
+    transform: scale(1.06);
+  }
+}
+@keyframes load-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}
+
+/* Scrolling: ScrollReveal.js sets the state. --reveal-order staggers items that appear together. */
+[data-reveal-state="pending"] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+}
+[data-reveal-state="shown"] {
+  transition:
+    opacity 700ms ease-out,
+    transform 700ms ease-out;
+  transition-delay: calc(var(--reveal-order, 0) * 100ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .hero-video,
+  .hero-socials,
+  .hero-button {
+    animation: none;
+  }
+  .hero-char {
+    animation: none;
+  }
+  .hero-line-extra {
+    visibility: hidden;
+  }
+  /* Without motion, show one static copy that wraps to fit the screen. */
+  .category-strip-track {
+    animation: none;
+    width: auto;
+    justify-content: center;
+  }
+  .category-strip-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.75rem;
+  }
+  .category-strip-list[aria-hidden="true"] {
+    display: none;
+  }
 }
