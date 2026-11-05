@@ -23,12 +23,20 @@ export const metadata = {
   description: "Thoughtful care from the ground up.",
 };
 
+// Runs before first paint, so a dark-mode visitor never sees a flash of white. A saved choice wins over the device setting.
+const setInitialTheme = `(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)})()`;
+
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      data-theme="light"
+      suppressHydrationWarning
       className={`${catamaran.variable} ${montserrat.variable} ${playfair.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
+      </head>
       <body className="min-h-full flex flex-col">
         <Navbar />
         {children}

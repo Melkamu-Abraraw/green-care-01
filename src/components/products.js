@@ -4,8 +4,7 @@
 // PLACEHOLDER: `rating` is not real customer data. Replace it before launch.
 // A product with no `price` shows "Price coming soon" and can't be added to the cart until it has one.
 // PLACEHOLDER: `summary` and `description` are drafted from the bottle labels. Replace with final copy.
-// `model` is the detail page's rotating 3D bottle; `photo` shows until it loads.
-// `hasMargin` marks a photo with empty space around the bottle, which the gallery zooms past.
+// `model` is the detail page's rotating 3D bottle; the file in public/images/products/ shows until it's drawn.
 
 const coffeeBeanOil = { name: "Coffee Bean Oil", slug: "coffee-bean-oil" };
 const hairCare = { name: "Hair Care", slug: "hair-care" };
@@ -26,7 +25,6 @@ export const products = [
     width: 192,
     height: 635,
     category: coffeeBeanOil,
-    photo: { src: "/products/01_Ethiopian_Coffee_Beans_Oil/renders/transparent/ECO_front.png", hasMargin: true },
     summary: "100% organic Ethiopian coffee beans oil, made only in Ethiopia.",
     description: collectionDescription,
     details: [["Made in", "Ethiopia"]],
@@ -42,7 +40,6 @@ export const products = [
     width: 159,
     height: 533,
     category: coffeeBeanOil,
-    photo: { src: "/images/products/green-coffee.png" },
     summary: "Natural oil from green coffee beans.",
     description: collectionDescription,
     details: [["Made in", "Ethiopia"]],
@@ -59,7 +56,6 @@ export const products = [
     height: 1038,
     featured: true,
     category: hairCare,
-    photo: { src: "/products/08_Rosemary_Oil/Rosemary_Oil_transparent_front.png", hasMargin: true },
     summary: "Rosemary oil for your hair care routine. Not an essential oil.",
     description: collectionDescription,
     details: [
@@ -77,7 +73,6 @@ export const products = [
     color: "#e8953a",
     width: 283,
     height: 762,
-    photo: { src: "/products/02_Orange_Seed_Oil/Orange_Seed_Oil_transparent_front.png", hasMargin: true },
     summary: "100% pure, cold-pressed orange seed oil with no additives.",
     description: collectionDescription,
     details: [
@@ -97,7 +92,6 @@ export const products = [
     width: 265,
     height: 881,
     category: skinCare,
-    photo: { src: "/products/05_Black_Seed_Oil/Black_Seed_Oil_transparent_front.png", hasMargin: true },
     summary: "Black seed oil, made in Ethiopia.",
     description: collectionDescription,
     details: [["Made in", "Ethiopia"]],
@@ -108,7 +102,6 @@ export const products = [
     model: "/products/06_Rue_Plant_Oil/Rue_Plant_Oil.glb",
     size: "100 mL",
     color: "#7f9a4a",
-    photo: { src: "/products/06_Rue_Plant_Oil/Rue_Plant_Oil_transparent_front.png", hasMargin: true },
     summary: "100% pure rue plant oil with no additives.",
     description: collectionDescription,
     details: [
@@ -129,10 +122,6 @@ export const products = [
     size: "150 mL",
     color: "#a6c34a",
     category: hairCare,
-    photo: {
-      src: "/products/07_Complete_Green_Hair_Oil/Complete_Green_Hair_Oil_transparent_front.png",
-      hasMargin: true,
-    },
     summary: "Complete Green hair oil to strengthen hair, soothe a dry scalp and deeply nourish.",
     description: collectionDescription,
     details: [
@@ -157,7 +146,6 @@ export const products = [
     size: "150 mL",
     color: "#d7a229",
     category: hairCare,
-    photo: { src: "/images/products/re-black-hair.png" },
     summary: "100% pure hair oil with no additives, to nourish, strengthen and revitalize.",
     description: collectionDescription,
     details: [

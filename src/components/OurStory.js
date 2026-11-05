@@ -39,7 +39,7 @@ export default function OurStory() {
   return (
     <section
       aria-labelledby="our-story-title"
-      className="our-story bg-brand-white px-4 pb-16 md:px-8 md:pb-24"
+      className="our-story bg-surface px-4 pb-16 md:px-8 md:pb-24"
     >
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <Image
@@ -62,7 +62,7 @@ export default function OurStory() {
 
           {/* Fixed height, so changing steps doesn't move the timeline. */}
           <div className="mt-6 min-h-36 sm:min-h-28" aria-live="polite">
-            <h3 className="font-(family-name:--font-montserrat)! text-sm font-semibold tracking-[0.15em] text-brand-green uppercase">
+            <h3 className="font-(family-name:--font-montserrat)! text-sm font-semibold tracking-[0.15em] text-accent uppercase">
               {active.title}
             </h3>
             <p className="mt-3 text-lg">{active.text}</p>
@@ -70,7 +70,7 @@ export default function OurStory() {
 
           <div className="relative mt-6">
             <span
-              className="absolute inset-x-[10%] top-1.5 h-px bg-brand-dark/20"
+              className="absolute inset-x-[10%] top-1.5 h-px bg-ink/20"
               aria-hidden="true"
             />
             <ul className="relative grid grid-cols-5">
@@ -87,7 +87,7 @@ export default function OurStory() {
                       className="flex w-full flex-col items-center gap-3 font-(family-name:--font-montserrat) text-xs md:text-sm"
                     >
                       <span
-                        className={`size-3 rounded-full transition-colors duration-300 motion-reduce:transition-none ${isActive ? "bg-brand-gold" : "bg-brand-dark/20"}`}
+                        className={`size-3 rounded-full transition-colors duration-300 motion-reduce:transition-none ${isActive ? "bg-brand-gold" : "bg-ink/20"}`}
                       />
                       <span className={isActive ? "font-semibold" : "opacity-60"}>{label}</span>
                     </button>

@@ -8,7 +8,7 @@ export default function ProductGrid() {
   return (
     <section
       aria-labelledby="product-grid-title"
-      className="product-grid bg-brand-white px-4 pb-16 md:px-8 md:pb-24"
+      className="product-grid bg-surface px-4 pb-16 md:px-8 md:pb-24"
     >
       <div className="mx-auto max-w-7xl">
         {/* Important overrides the serif set on all headings in globals.css. */}
@@ -29,7 +29,7 @@ export default function ProductGrid() {
         <div data-reveal className="mt-10 text-center md:mt-14">
           <Link
             href="/shop"
-            className="group inline-flex items-center gap-3 border border-brand-dark px-8 py-3 font-(family-name:--font-montserrat) text-sm font-medium transition-colors duration-500 hover:bg-brand-dark hover:text-brand-white"
+            className="group inline-flex items-center gap-3 border border-ink px-8 py-3 font-(family-name:--font-montserrat) text-sm font-medium transition-colors duration-500 hover:bg-ink hover:text-surface"
           >
             See more
             <svg

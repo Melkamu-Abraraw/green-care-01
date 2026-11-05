@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import PageBanner from "@/components/PageBanner";
 import ProductCard from "@/components/ProductCard";
 import ProductGallery from "@/components/ProductGallery";
 import ProductSummary from "@/components/ProductSummary";
@@ -41,7 +42,7 @@ async function ProductContent({ params }) {
         {/* Keyed so moving between products starts on the first image, quantity, and tab. */}
         <ProductGallery
           key={`gallery-${slug}`}
-          photo={product.photo}
+          slug={slug}
           model={product.model}
           productName={product.name}
         />
@@ -72,11 +73,11 @@ async function ProductContent({ params }) {
 function ProductContentFallback() {
   return (
     <div className={productLayoutClass} aria-hidden="true">
-      <div className="aspect-square bg-brand-dark/5" />
+      <div className="aspect-square bg-ink/5" />
       <div className="space-y-4">
-        <div className="h-12 w-3/4 bg-brand-dark/5" />
-        <div className="h-8 w-20 bg-brand-dark/5" />
-        <div className="h-24 bg-brand-dark/5" />
+        <div className="h-12 w-3/4 bg-ink/5" />
+        <div className="h-8 w-20 bg-ink/5" />
+        <div className="h-24 bg-ink/5" />
       </div>
     </div>
   );
@@ -85,11 +86,8 @@ function ProductContentFallback() {
 export default function ProductPage({ params }) {
   return (
     <main>
-      <div className="flex h-44 items-center justify-center bg-brand-green/10 md:h-72">
-        <p className="font-(family-name:--font-montserrat) text-4xl font-light tracking-[0.12em] uppercase md:text-6xl">
-          Shop
-        </p>
-      </div>
+      {/* A paragraph here, because the product name is this page's main heading. */}
+      <PageBanner titleAs="p">Shop</PageBanner>
 
       {/* The slug belongs to one URL, so it stays behind Suspense for instant navigation. */}
       <Suspense fallback={<ProductContentFallback />}>

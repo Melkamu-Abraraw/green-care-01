@@ -10,9 +10,9 @@ export default function ProductCard({ product, index, imageLoading }) {
     <li data-reveal style={{ "--reveal-order": index }} className="product-card relative">
       <Link
         href={`/shop/${product.slug}`}
-        className="group block text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-dark"
+        className="group block text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
-        <span className="relative block aspect-4/5 overflow-hidden rounded-md bg-brand-dark/5">
+        <span className="relative block aspect-4/5 overflow-hidden rounded-md bg-ink/5">
           {/* The extra bottom padding keeps the bottle clear of the Add to Cart button. */}
           <Image
             src={`/images/products/${product.slug}.png`}
@@ -24,7 +24,7 @@ export default function ProductCard({ product, index, imageLoading }) {
           />
         </span>
         <span className="mt-4 block text-sm opacity-60">Ye Green Care</span>
-        <h3 className="mt-1 font-(family-name:--font-montserrat)! text-base font-medium transition-colors group-hover:text-brand-green xl:text-lg">
+        <h3 className="mt-1 font-(family-name:--font-montserrat)! text-base font-medium transition-colors group-hover:text-accent xl:text-lg">
           {product.name}
         </h3>
         <span className="mt-1 block text-base">

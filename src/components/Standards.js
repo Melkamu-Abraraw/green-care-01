@@ -38,14 +38,14 @@ function Badge({ top, main, bottom, shape }) {
         <g strokeWidth="2">{drawShape(1)}</g>
         <g strokeWidth="1" strokeDasharray="2 3">{drawShape(0.88)}</g>
       </g>
-      <text x="80" y="54" textAnchor="middle" className="fill-brand-dark text-[10px]">
+      <text x="80" y="54" textAnchor="middle" className="fill-ink text-[10px]">
         {top}
       </text>
       <rect x="4" y="64" width="152" height="30" className="fill-brand-gold" />
       <text x="80" y="84" textAnchor="middle" className="fill-brand-dark text-[14px] font-bold tracking-wider">
         {main}
       </text>
-      <text x="80" y="112" textAnchor="middle" className="fill-brand-dark text-[9px]">
+      <text x="80" y="112" textAnchor="middle" className="fill-ink text-[9px]">
         {bottom}
       </text>
     </svg>

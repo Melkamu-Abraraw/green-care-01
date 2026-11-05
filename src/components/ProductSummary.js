@@ -16,7 +16,7 @@ function QuantityStepButton({ label, onClick, path }) {
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="flex w-8 flex-1 items-center justify-center transition-colors hover:bg-brand-dark/5"
+      className="flex w-8 flex-1 items-center justify-center transition-colors hover:bg-ink/5"
     >
       <svg
         className="size-3.5"
@@ -52,7 +52,7 @@ function AddToCartForm({ productName }) {
       <label htmlFor={quantityId} className="sr-only">
         Quantity of {productName}
       </label>
-      <div className="flex h-12 border border-brand-dark/25">
+      <div className="flex h-12 border border-ink/25">
         <input
           id={quantityId}
           type="text"
@@ -65,7 +65,7 @@ function AddToCartForm({ productName }) {
           onBlur={() => setQuantity(Number(quantity) || 1)}
           className="w-14 bg-transparent text-center text-lg outline-offset-2"
         />
-        <div className="flex flex-col divide-y divide-brand-dark/25 border-l border-brand-dark/25">
+        <div className="flex flex-col divide-y divide-ink/25 border-l border-ink/25">
           <QuantityStepButton label="Increase quantity" onClick={() => step(1)} path="M12 5v14M5 12h14" />
           <QuantityStepButton label="Decrease quantity" onClick={() => step(-1)} path="M5 12h14" />
         </div>
@@ -87,7 +87,7 @@ function ShareButton({ label, onClick, children }) {
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="transition-colors hover:text-brand-green"
+      className="transition-colors hover:text-accent"
     >
       <svg className="size-4" viewBox="0 0 24 24" aria-hidden="true">
         {children}
@@ -219,7 +219,7 @@ export default function ProductSummary({ product }) {
             setActiveTab("reviews");
             tabRefs.current.reviews.focus();
           }}
-          className="text-base leading-none transition-colors hover:text-brand-green"
+          className="text-base leading-none transition-colors hover:text-accent"
         >
           ({reviews.length} customer {reviews.length === 1 ? "review" : "reviews"})
         </button>
@@ -238,7 +238,7 @@ export default function ProductSummary({ product }) {
             Category:{" "}
             <Link
               href={`/shop?category=${product.category.slug}`}
-              className="ml-1 font-medium transition-colors hover:text-brand-green"
+              className="ml-1 font-medium transition-colors hover:text-accent"
             >
               {product.category.name}
             </Link>
@@ -266,7 +266,7 @@ export default function ProductSummary({ product }) {
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => setActiveTab(tab.id)}
                 onKeyDown={(event) => handleTabKeyDown(event, index)}
-                className={`-ml-px grow border px-2 py-3 font-(family-name:--font-montserrat) text-xs tracking-wider uppercase transition-colors first:ml-0 sm:grow-0 sm:px-6 sm:text-sm ${isActive ? "relative border-brand-green bg-brand-green text-brand-white" : "border-brand-dark/25 hover:text-brand-green"}`}
+                className={`-ml-px grow border px-2 py-3 font-(family-name:--font-montserrat) text-xs tracking-wider uppercase transition-colors first:ml-0 sm:grow-0 sm:px-6 sm:text-sm ${isActive ? "relative border-brand-green bg-brand-green text-brand-white" : "border-ink/25 hover:text-accent"}`}
               >
                 {tab.label}
               </button>

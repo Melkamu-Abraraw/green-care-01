@@ -5,7 +5,7 @@ import Rating, { starPath } from "@/components/Rating";
 
 const SAVED_DETAILS_KEY = "green-care-review-details";
 const fieldClass =
-  "mt-1 block w-full border border-brand-dark/25 bg-transparent px-3 py-3 outline-offset-2 focus-visible:outline-2 focus-visible:outline-brand-dark";
+  "mt-1 block w-full border border-ink/25 bg-transparent px-3 py-3 outline-offset-2 focus-visible:outline-2 focus-visible:outline-ink";
 
 function RequiredMark() {
   return <span aria-hidden="true"> *</span>;
@@ -63,7 +63,7 @@ function RatingInput({ value, onChange }) {
               {star} {star === 1 ? "star" : "stars"}
             </span>
             <svg
-              className={`size-6 fill-current outline-offset-2 transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-brand-dark ${star <= shownValue ? "text-brand-gold" : "text-brand-dark/15"}`}
+              className={`size-6 fill-current outline-offset-2 transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-ink ${star <= shownValue ? "text-brand-gold" : "text-ink/15"}`}
               viewBox="0 0 24 24"
               aria-hidden="true"
             >

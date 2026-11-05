@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { products } from "@/components/products";
 
 function collectionItem(name, category, bottleSlug) {
@@ -18,35 +18,15 @@ const collection = [
 
 export default function ProductShowcase() {
   const [activeIndex, setActiveIndex] = useState(null);
-  const listRef = useRef(null);
-
-  // Touch screens have no hover, so the bottle swiped to the center becomes active.
-  function handleScroll() {
-    if (window.matchMedia("(hover: hover)").matches) return;
-
-    const list = listRef.current;
-    const center = list.scrollLeft + list.clientWidth / 2;
-    let closest = 0;
-    let closestDistance = Infinity;
-
-    [...list.children].forEach((item, index) => {
-      const distance = Math.abs(item.offsetLeft + item.offsetWidth / 2 - center);
-      if (distance < closestDistance) {
-        closest = index;
-        closestDistance = distance;
-      }
-    });
-    setActiveIndex(closest);
-  }
 
   return (
     <section
       aria-labelledby="product-showcase-title"
-      className="product-showcase bg-brand-white px-4 py-16 md:px-8 md:py-24"
+      className="product-showcase bg-surface px-4 py-16 md:px-8 md:py-24"
     >
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-12">
         <header data-reveal className="lg:order-last">
-          <p className="font-(family-name:--font-montserrat) text-xs font-semibold tracking-[0.2em] text-brand-green uppercase md:text-sm">
+          <p className="font-(family-name:--font-montserrat) text-xs font-semibold tracking-[0.2em] text-accent uppercase md:text-sm">
             The Collection
           </p>
           <h2
@@ -60,7 +40,7 @@ export default function ProductShowcase() {
           </p>
           <Link
             href="/shop"
-            className="mt-6 inline-block bg-brand-gold px-6 py-4 whitespace-nowrap font-(family-name:--font-montserrat) text-sm font-medium text-brand-dark uppercase transition-colors hover:bg-brand-dark hover:text-brand-white"
+            className="mt-6 inline-block bg-brand-gold px-6 py-4 whitespace-nowrap font-(family-name:--font-montserrat) text-sm font-medium text-brand-dark uppercase transition-colors hover:bg-ink hover:text-surface"
           >
             Shop the collection
           </Link>
@@ -68,42 +48,46 @@ export default function ProductShowcase() {
 
         <ul
           data-reveal
-          ref={listRef}
-          onScroll={handleScroll}
           onPointerLeave={(event) => {
             if (event.pointerType === "mouse") setActiveIndex(null);
           }}
           onBlur={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget)) setActiveIndex(null);
           }}
-          className="relative -mx-4 flex snap-x snap-mandatory overflow-x-auto px-[20%] scrollbar-none md:mx-0 md:justify-center md:overflow-visible md:px-0"
+          className="relative -mx-2 grid grid-cols-3 md:mx-0 md:flex md:justify-center"
         >
           {collection.map((product, index) => {
             const isActive = index === activeIndex;
+            // Phones have no hover, so the center bottle glows until another one is tapped.
+            const glowClass = isActive
+              ? "opacity-100"
+              : product.featured && activeIndex === null
+                ? "opacity-100 md:opacity-0"
+                : "opacity-0";
 
             return (
-              <li key={product.slug} className="relative w-3/5 shrink-0 snap-center md:w-48">
+              <li key={product.slug} className="relative min-w-0 md:w-48 md:shrink-0">
                 {/* Only the hovered bottle's surroundings take its color. */}
                 <span
-                  className={`pointer-events-none absolute inset-y-0 -inset-x-6 transition-opacity duration-500 motion-reduce:transition-none ${isActive ? "opacity-100" : "opacity-0"}`}
+                  className={`pointer-events-none absolute inset-y-0 -inset-x-2 transition-opacity duration-500 motion-reduce:transition-none md:-inset-x-6 ${glowClass}`}
                   style={{ background: `radial-gradient(closest-side, ${product.color} 50%, transparent)` }}
                 />
                 <Link
                   href={`/shop?category=${product.category}`}
                   onPointerEnter={() => setActiveIndex(index)}
                   onFocus={() => setActiveIndex(index)}
-                  className="relative flex h-full flex-col items-center justify-end pb-2 text-center focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-dark"
+                  className="relative flex h-full flex-col items-center justify-end pb-2 text-center focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink"
                 >
                   <Image
                     src={`/images/products/${product.slug}.png`}
                     alt=""
                     width={product.width}
                     height={product.height}
-                    className={`w-auto origin-bottom transition-transform duration-500 motion-reduce:transition-none ${isActive ? "scale-105" : "scale-100"} ${product.featured ? "h-72 lg:h-80 xl:h-96" : "h-52 lg:h-48 xl:h-60"}`}
+                    className={`w-auto origin-bottom transition-transform duration-500 motion-reduce:transition-none ${isActive ? "scale-105" : "scale-100"} ${product.featured ? "h-60 md:h-72 lg:h-80 xl:h-96" : "h-40 md:h-52 lg:h-48 xl:h-60"}`}
                   />
-                  <span className="-mt-1 h-3 w-32 rounded-[50%] bg-black/25 blur-md" />
+                  <span className="-mt-1 h-3 w-20 rounded-[50%] bg-black/25 blur-md md:w-32" />
                   {/* Important overrides the serif set on all headings in globals.css. */}
-                  <h3 className="mt-3 px-1 font-(family-name:--font-montserrat)! text-xs font-medium tracking-wide xl:text-sm">
+                  <h3 className="mt-3 font-(family-name:--font-montserrat)! text-[11px] font-medium sm:text-xs md:px-1 md:tracking-wide xl:text-sm">
                     {product.name}
                   </h3>
                 </Link>

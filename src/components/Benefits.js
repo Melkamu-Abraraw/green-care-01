@@ -42,7 +42,7 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <section aria-labelledby="benefits-title" className="bg-brand-white px-4 pb-16 md:px-8 md:pb-24">
+    <section aria-labelledby="benefits-title" className="bg-surface px-4 pb-16 md:px-8 md:pb-24">
       <h2 id="benefits-title" className="sr-only">
         Why choose our oils
       </h2>

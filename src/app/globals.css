@@ -6,6 +6,26 @@
   --color-brand-dark: #0c2818;
   --color-brand-green: #517b38;
   --color-brand-white: #ffffff;
+
+  /* Theme colors: these follow light/dark mode, while the brand colors above never change.
+     Use them for page backgrounds, body text, tints and text-sized green. */
+  --color-surface: #ffffff;
+  --color-ink: #0c2818;
+  --color-accent: #517b38;
+}
+
+/* Enables dark: utilities, driven by the data-theme attribute that layout.js sets before first paint. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+html {
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --color-surface: #08120d;
+  --color-ink: #eaf1e6;
+  --color-accent: #a3cc86;
+  /* Native controls and scrollbars match too. */
+  color-scheme: dark;
 }
 
 * {
@@ -16,8 +36,8 @@ html {
 }
 body {
   margin: 0;
-  background: var(--color-brand-white);
-  color: var(--color-brand-dark);
+  background: var(--color-surface);
+  color: var(--color-ink);
   font-family: var(--font-catamaran), sans-serif;
 }
 h1,
@@ -30,15 +50,15 @@ h6 {
 }
 
 .site-header {
-  --nav-hover: var(--color-brand-green);
+  --nav-hover: var(--color-accent);
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--color-brand-white);
-  color: var(--color-brand-dark);
+  background: var(--color-surface);
+  color: var(--color-ink);
 }
-/* On pages with a video hero the navbar floats over it, then turns white with dark text once scrolled. */
-body:has(.hero) .site-header {
+/* On pages with a hero or photo banner the navbar floats over it, then turns solid once scrolled. */
+body:has(.hero, .page-banner) .site-header {
   --nav-hover: var(--color-brand-gold);
   position: fixed;
   inset-inline: 0;
@@ -48,11 +68,43 @@ body:has(.hero) .site-header {
     background-color 300ms ease,
     color 300ms ease;
 }
-body:has(.hero) .site-header[data-scrolled="true"] {
-  --nav-hover: var(--color-brand-green);
-  background: var(--color-brand-white);
-  color: var(--color-brand-dark);
+body:has(.hero, .page-banner) .site-header[data-scrolled="true"] {
+  --nav-hover: var(--color-accent);
+  background: var(--color-surface);
+  color: var(--color-ink);
   box-shadow: 0 1px 8px rgb(0 0 0 / 0.12);
+}
+
+/* The page behind the open phone menu stays still, and the links drift in one after another as the panel arrives. */
+@media (width < 48rem) {
+  html:has(#main-menu[data-open="true"]) {
+    overflow: hidden;
+  }
+  #main-menu li {
+    opacity: 0;
+    translate: -1.5rem 0;
+    transition:
+      opacity 300ms ease-out,
+      translate 300ms ease-out;
+  }
+  #main-menu[data-open="true"] li {
+    opacity: 1;
+    translate: 0 0;
+    transition-duration: 500ms;
+    transition-delay: calc(150ms + var(--menu-order) * 80ms);
+  }
+}
+@media (width < 48rem) and (prefers-reduced-motion: reduce) {
+  #main-menu li {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+
+/* Most bottles are black with transparent backgrounds, so on the dark page a soft halo keeps their outline visible. */
+[data-theme="dark"] img[src*="images%2Fproducts"] {
+  filter: drop-shadow(0 0 14px rgb(255 255 255 / 0.28));
 }
 
 .hero-subtitle {
@@ -155,11 +207,11 @@ body:has(.hero) .site-header[data-scrolled="true"] {
   pointer-events: auto;
 }
 .price-range input:focus-visible::-webkit-slider-thumb {
-  outline: 2px solid var(--color-brand-dark);
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
 }
 .price-range input:focus-visible::-moz-range-thumb {
-  outline: 2px solid var(--color-brand-dark);
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
 }
 

@@ -21,7 +21,7 @@ export default function Rating({ value, className = "" }) {
       aria-label={`Rated ${value} out of 5`}
       className={`relative inline-block align-top ${className}`}
     >
-      <Stars className="text-brand-dark/15" />
+      <Stars className="text-ink/15" />
       <span className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${(value / 5) * 100}%` }}>
         <Stars className="text-brand-gold" />
       </span>

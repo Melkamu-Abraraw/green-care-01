@@ -38,7 +38,7 @@ const linkColumns = [
 
 export default function Footer() {
   return (
-    <footer className="relative isolate overflow-hidden text-brand-dark">
+    <footer className="relative isolate overflow-hidden text-ink">
       <picture className="absolute inset-0 -z-10">
         <source media="(min-width: 768px)" srcSet={desktopBackground} />
         <source srcSet={mobileBackground} />
@@ -47,11 +47,11 @@ export default function Footer() {
           {...backgroundProps}
           alt=""
           loading="lazy"
-          className="size-full object-cover object-bottom md:object-[center_80%]"
+          className="size-full object-cover object-bottom md:object-[center_80%] dark:brightness-[0.4]"
         />
       </picture>
       {/* Blends the sky into the white section above. */}
-      <div className="absolute inset-x-0 top-0 -z-10 h-28 bg-linear-to-b from-brand-white to-transparent md:h-32" />
+      <div className="absolute inset-x-0 top-0 -z-10 h-28 bg-linear-to-b from-surface to-transparent md:h-32" />
 
       {/* The bottom padding, sized in vw to scale with the image, keeps the landscape clear of the content. */}
       <div className="mx-auto grid w-full max-w-7xl gap-y-5 px-6 pt-8 pb-[55vw] md:grid-cols-[minmax(0,28rem)_auto] md:justify-between md:gap-x-10 md:px-8 md:pt-7 md:pb-[max(18vw,11rem)]">
@@ -66,13 +66,13 @@ export default function Footer() {
               className="h-auto w-12"
             />
             <span className="font-(family-name:--font-playfair) text-2xl font-bold">
-              Ye Green Care
+              Green Care Essentials
             </span>
           </Link>
           <p className="mt-2 leading-snug">
-            Ye Green Care brings hair care, skin care and coffee bean oil
-            together. Our story begins in Ethiopia, and every oil is bottled
-            with care, for beautiful hair and body.
+            Green Care brings hair care, skin care and coffee bean oil together.
+            Our story begins in Ethiopia, and every oil is bottled with care,
+            for beautiful hair and body.
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export default function Footer() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="transition-colors hover:text-brand-green"
+                      className="transition-colors hover:text-accent"
                     >
                       {item.label}
                     </Link>
@@ -112,8 +112,8 @@ export default function Footer() {
               Follow us
             </h2>
             <SocialLinks labelledBy="footer-social" className="mt-2" />
-            <p className="mt-3 text-sm leading-snug text-brand-dark/70 md:max-w-40">
-              &copy; 2026 Ye Green Care. All rights reserved.
+            <p className="mt-3 text-sm leading-snug text-ink/70 md:max-w-40">
+              &copy; 2026 Green Care. All rights reserved.
             </p>
           </div>
         </div>

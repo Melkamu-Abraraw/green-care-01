@@ -102,7 +102,7 @@ function resultsLabel(count) {
 
 function Widget({ title, titleId, children }) {
   return (
-    <section className="bg-brand-green/5 p-6 lg:p-8">
+    <section className="bg-brand-green/5 p-6 lg:p-8 dark:bg-ink/5">
       {/* Important overrides the serif set on all headings in globals.css. */}
       <h2
         id={titleId}
@@ -120,7 +120,7 @@ function SearchWidget({ filters, onApply }) {
     <Widget title="Search">
       <form
         role="search"
-        className="flex border border-brand-dark/25 bg-brand-white"
+        className="flex border border-ink/25 bg-surface"
         onSubmit={(event) => {
           event.preventDefault();
           onApply({ search: event.currentTarget.elements.search.value.trim() });
@@ -189,7 +189,7 @@ function PriceWidget({ filters, onApply }) {
         }}
       >
         <div className="price-range relative h-4">
-          <div className="absolute inset-x-0 top-1.75 h-0.5 bg-brand-dark/15" />
+          <div className="absolute inset-x-0 top-1.75 h-0.5 bg-ink/15" />
           <div
             className="absolute top-1.75 h-0.5 bg-brand-gold"
             style={{
@@ -223,7 +223,7 @@ function PriceWidget({ filters, onApply }) {
         <div className="mt-3 text-right">
           <button
             type="submit"
-            className="bg-brand-dark/10 px-6 py-3 font-(family-name:--font-montserrat) text-xs font-medium tracking-[0.15em] uppercase transition-colors hover:bg-brand-green hover:text-brand-white"
+            className="bg-ink/10 px-6 py-3 font-(family-name:--font-montserrat) text-xs font-medium tracking-[0.15em] uppercase transition-colors hover:bg-brand-green hover:text-brand-white"
           >
             Filter
           </button>
@@ -240,7 +240,7 @@ function CategoryLink({ href, isActive, children }) {
         href={href}
         scroll={false}
         aria-current={isActive ? "true" : undefined}
-        className={`transition-colors hover:text-brand-green ${isActive ? "font-semibold text-brand-green" : ""}`}
+        className={`transition-colors hover:text-accent ${isActive ? "font-semibold text-accent" : ""}`}
       >
         {children}
       </Link>
@@ -284,7 +284,7 @@ function ViewButton({ label, isActive, onClick, children }) {
       onClick={onClick}
       aria-label={label}
       aria-pressed={isActive}
-      className={`transition-colors hover:text-brand-gold ${isActive ? "text-brand-gold" : "text-brand-dark/30"}`}
+      className={`transition-colors hover:text-brand-gold ${isActive ? "text-brand-gold" : "text-ink/30"}`}
     >
       <svg className="size-7 fill-current" viewBox="0 0 24 24" aria-hidden="true">
         {children}
@@ -300,7 +300,7 @@ function ShopListItem({ product, imageLoading }) {
         href={`/shop/${product.slug}`}
         aria-label={`View ${product.name}`}
         tabIndex={-1}
-        className="group relative block aspect-4/5 w-32 shrink-0 overflow-hidden rounded-md bg-brand-dark/5 md:w-44"
+        className="group relative block aspect-4/5 w-32 shrink-0 overflow-hidden rounded-md bg-ink/5 md:w-44"
       >
         <Image
           src={`/images/products/${product.slug}.png`}
@@ -316,7 +316,7 @@ function ShopListItem({ product, imageLoading }) {
         <span className="block text-sm opacity-60">Ye Green Care</span>
         {/* Important overrides the serif set on all headings in globals.css. */}
         <h3 className="mt-1 font-(family-name:--font-montserrat)! text-base font-medium xl:text-lg">
-          <Link href={`/shop/${product.slug}`} className="transition-colors hover:text-brand-green">
+          <Link href={`/shop/${product.slug}`} className="transition-colors hover:text-accent">
             {product.name}
           </Link>
         </h3>
@@ -368,7 +368,7 @@ function Catalog({ searchParams }) {
           type="button"
           onClick={() => setAreFiltersOpen(!areFiltersOpen)}
           aria-expanded={areFiltersOpen}
-          className="mt-4 w-full border border-brand-dark/25 py-3 font-(family-name:--font-montserrat) text-xs font-medium tracking-[0.15em] uppercase lg:hidden"
+          className="mt-4 w-full border border-ink/25 py-3 font-(family-name:--font-montserrat) text-xs font-medium tracking-[0.15em] uppercase lg:hidden"
         >
           {areFiltersOpen ? "Hide filters" : "Show filters"}
         </button>
@@ -405,7 +405,7 @@ function Catalog({ searchParams }) {
             <Link
               href={clearedHref}
               scroll={false}
-              className="text-brand-green underline underline-offset-2 transition-colors hover:text-brand-dark"
+              className="text-accent underline underline-offset-2 transition-colors hover:text-ink"
             >
               Clear filters
             </Link>
@@ -414,7 +414,7 @@ function Catalog({ searchParams }) {
             aria-label="Sort products"
             value={filters.sort}
             onChange={(event) => applyFilters({ sort: event.target.value })}
-            className="w-full bg-brand-dark/5 px-4 py-3 sm:ml-auto sm:w-auto"
+            className="w-full bg-ink/5 px-4 py-3 sm:ml-auto sm:w-auto"
           >
             {sortOptions.map(({ value, label }) => (
               <option key={value} value={value}>
@@ -425,7 +425,7 @@ function Catalog({ searchParams }) {
         </div>
 
         {matches.length === 0 ? (
-          <p className="mt-6 border border-brand-dark/15 p-8 text-center text-lg">
+          <p className="mt-6 border border-ink/15 p-8 text-center text-lg">
             No products match your search and filters.
           </p>
         ) : (
