@@ -18,7 +18,7 @@ const milestones = [
   {
     label: "Bottling",
     title: "Bottling",
-    text: "Every oil is bottled with care, from our 30 mL droppers to our 120 mL rosemary oil.",
+    text: "Every oil is bottled with care, from our 30 mL droppers to our 150 mL rosemary oil.",
   },
   {
     label: "Care",

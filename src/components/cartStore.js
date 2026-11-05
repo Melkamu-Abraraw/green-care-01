@@ -11,7 +11,7 @@ export function getCartCount() {
   return count;
 }
 
-export function addToCart() {
-  count += 1;
+export function addToCart(quantity = 1) {
+  count += quantity;
   listeners.forEach((listener) => listener());
 }
