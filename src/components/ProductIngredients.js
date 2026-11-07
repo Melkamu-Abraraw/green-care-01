@@ -21,22 +21,22 @@ export default function ProductIngredients() {
           </h2>
         </div>
 
-        <ul className="mt-12 grid gap-x-10 gap-y-12 md:mt-16 md:grid-cols-2 xl:grid-cols-4">
+        <ul className="mt-12 grid grid-cols-2 gap-x-5 gap-y-10 md:mt-16 md:gap-x-10 md:gap-y-12 xl:grid-cols-4">
           {products.map((product, index) => (
             <li
               key={product.slug}
               data-reveal
               style={{ "--reveal-order": index % 4 }}
-              className="ingredient-item group flex items-start gap-5"
+              className="ingredient-item group flex flex-col items-start gap-3 md:flex-row md:gap-5"
             >
               {/* The icon's cut-out details are drawn in the circle's color, so it's set on both. */}
-              <span className="ingredient-icon flex size-18 shrink-0 items-center justify-center rounded-full bg-(--ingredient-circle) text-logo-green [--icon-cut:var(--ingredient-circle)] [--ingredient-circle:#eeede8] md:size-20 dark:text-accent dark:[--ingredient-circle:#16241c]">
-                <svg className="ingredient-glyph size-8 fill-current md:size-9" viewBox="0 0 24 24" aria-hidden="true">
+              <span className="ingredient-icon flex size-14 shrink-0 items-center justify-center rounded-full bg-(--ingredient-circle) text-logo-green [--icon-cut:var(--ingredient-circle)] [--ingredient-circle:#eeede8] md:size-20 dark:text-accent dark:[--ingredient-circle:#16241c]">
+                <svg className="ingredient-glyph size-7 fill-current md:size-9" viewBox="0 0 24 24" aria-hidden="true">
                   {productIcons[product.slug]}
                 </svg>
               </span>
-              <div className="min-w-0 pt-2">
-                <h3 className="text-xl leading-snug font-bold md:text-2xl">
+              <div className="min-w-0 md:pt-2">
+                <h3 className="text-lg leading-snug font-bold md:text-2xl">
                   <Link
                     href={`/shop/${product.slug}`}
                     className="transition-colors hover:text-logo-green dark:hover:text-accent"
@@ -45,7 +45,7 @@ export default function ProductIngredients() {
                   </Link>
                 </h3>
                 <span className="ingredient-rule mt-3 block h-0.5 w-8 bg-ink/70" aria-hidden="true" />
-                <p className="mt-3 leading-relaxed text-ink/60">{product.ingredients}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink/60 md:text-base">{product.ingredients}</p>
               </div>
             </li>
           ))}
