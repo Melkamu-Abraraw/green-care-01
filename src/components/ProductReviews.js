@@ -5,7 +5,7 @@ import Rating, { starPath } from "@/components/Rating";
 
 const SAVED_DETAILS_KEY = "green-care-review-details";
 const fieldClass =
-  "mt-1 block w-full border border-ink/25 bg-transparent px-3 py-3 outline-offset-2 focus-visible:outline-2 focus-visible:outline-ink";
+  "mt-1 block w-full rounded-md border-[0.5px] border-ink/25 bg-transparent px-3 py-3 outline-offset-2 focus-visible:outline-2 focus-visible:outline-ink";
 
 function RequiredMark() {
   return <span aria-hidden="true"> *</span>;
@@ -129,7 +129,7 @@ function ReviewForm({ onAddReview }) {
       </label>
       <button
         type="submit"
-        className="bg-brand-green px-12 py-4 font-(family-name:--font-montserrat) text-sm font-medium tracking-[0.15em] text-brand-white uppercase transition-colors hover:bg-brand-gold hover:text-brand-dark"
+        className="rounded-md px-12 py-3.5 text-base font-semibold bg-logo-green text-brand-white transition-colors hover:bg-logo-green/85"
       >
         Submit
       </button>
@@ -161,8 +161,7 @@ export default function ProductReviews({ reviews, onAddReview }) {
         </ul>
       )}
 
-      {/* Important overrides the serif set on all headings in globals.css. */}
-      <h2 className="mt-8 font-(family-name:--font-montserrat)! text-xl font-light tracking-[0.08em] uppercase">
+      <h2 className="mt-8 text-xl font-medium">
         Add a review
       </h2>
       <ReviewForm onAddReview={onAddReview} />

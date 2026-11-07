@@ -10,7 +10,7 @@ export default function ProductGrid() {
       aria-labelledby="product-grid-title"
       className="product-grid bg-surface px-4 pb-16 md:px-8 md:pb-24"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-[90rem]">
         {/* Important overrides the serif set on all headings in globals.css. */}
         <h2
           data-reveal
@@ -20,7 +20,7 @@ export default function ProductGrid() {
           Popular Products
         </h2>
 
-        <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 md:mt-12 md:gap-x-6 lg:grid-cols-4">
+        <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-12 md:gap-5 lg:grid-cols-4">
           {popularProducts.map((product, index) => (
             <ProductCard key={product.slug} product={product} index={index} />
           ))}

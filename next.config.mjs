@@ -5,6 +5,10 @@ const nextConfig = {
     agentFeedback: true,
   },
   cacheComponents: true,
+  // 75 is the default; 90 is for photos that need to stay sharp, like the founder portrait.
+  images: {
+    qualities: [75, 90],
+  },
   partialPrefetching: true,
   reactCompiler: true,
   turbopack: {

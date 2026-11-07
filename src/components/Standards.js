@@ -8,18 +8,21 @@ const badges = [
   { top: "Bottled in", main: "CANADA", bottom: "Rosemary oil", shape: "octagon" },
 ];
 
+// pathLength="1" lets CSS draw the outline in, whatever the shape's real length.
 const shapes = {
-  circle: (scale) => <circle cx="80" cy="80" r={72 * scale} />,
+  circle: (scale) => <circle cx="80" cy="80" r={72 * scale} pathLength="1" />,
   hexagon: (scale) => (
     <polygon
       transform={`translate(80 80) scale(${scale}) translate(-80 -80)`}
       points="80,4 146,42 146,118 80,156 14,118 14,42"
+      pathLength="1"
     />
   ),
   octagon: (scale) => (
     <polygon
       transform={`translate(80 80) scale(${scale}) translate(-80 -80)`}
       points="50,6 110,6 154,50 154,110 110,154 50,154 6,110 6,50"
+      pathLength="1"
     />
   ),
 };
@@ -30,18 +33,22 @@ function Badge({ top, main, bottom, shape }) {
   return (
     <svg
       viewBox="0 0 160 160"
-      className="mx-auto w-full max-w-40 font-(family-name:--font-montserrat)"
+      className="award-badge mx-auto w-full max-w-40 font-(family-name:--font-montserrat)"
       role="img"
       aria-label={`${main}, ${bottom}`}
     >
       <g fill="none" className="stroke-brand-gold">
-        <g strokeWidth="2">{drawShape(1)}</g>
-        <g strokeWidth="1" strokeDasharray="2 3">{drawShape(0.88)}</g>
+        <g className="award-ring" strokeWidth="2">
+          {drawShape(1)}
+        </g>
+        <g className="award-dashes" strokeWidth="1" strokeDasharray="2 3">
+          {drawShape(0.88)}
+        </g>
       </g>
       <text x="80" y="54" textAnchor="middle" className="fill-ink text-[10px]">
         {top}
       </text>
-      <rect x="4" y="64" width="152" height="30" className="fill-brand-gold" />
+      <rect x="4" y="64" width="152" height="30" className="award-ribbon fill-brand-gold" />
       <text x="80" y="84" textAnchor="middle" className="fill-brand-dark text-[14px] font-bold tracking-wider">
         {main}
       </text>
@@ -97,17 +104,21 @@ function LaurelBranch() {
 
 export default function Standards() {
   return (
-    <section aria-labelledby="awards-title" className="px-4 py-16 md:px-8 md:py-24">
+    <section aria-labelledby="awards-title" className="px-4 pt-6 pb-16 md:px-8 md:pt-10 md:pb-24">
       <div className="mx-auto max-w-7xl">
-        <div data-reveal className="relative flex h-32 items-center justify-center xl:h-40">
+        <div data-reveal className="awards-heading relative flex h-32 items-center justify-center xl:h-40">
           <svg
             viewBox="0 0 120 120"
             className="absolute size-32 text-brand-gold opacity-40 xl:size-40"
             aria-hidden="true"
           >
-            <LaurelBranch />
-            <g transform="translate(120 0) scale(-1 1)">
+            <g className="laurel laurel-left">
               <LaurelBranch />
+            </g>
+            <g transform="translate(120 0) scale(-1 1)">
+              <g className="laurel laurel-right">
+                <LaurelBranch />
+              </g>
             </g>
           </svg>
           <h2 id="awards-title" className="relative text-4xl leading-tight font-bold xl:text-5xl">
@@ -116,7 +127,7 @@ export default function Standards() {
         </div>
         <ul className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-3 md:mt-14 lg:grid-cols-6">
           {badges.map((badge, index) => (
-            <li key={badge.main} data-reveal style={{ "--reveal-order": index }}>
+            <li key={badge.main} data-reveal style={{ "--reveal-order": index }} className="award-item">
               <Badge {...badge} />
             </li>
           ))}

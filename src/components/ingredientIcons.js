@@ -52,14 +52,13 @@ export const ingredientIcons = {
       <path {...cutProps} d="M12 5v14M5.9 8.5l12.2 7M5.9 15.5l12.2-7" />
     </>
   ),
-  carrot: (
+  leaf: (
     <>
-      <path d="M16 8c-2.5-2.5-6-2-7.5.5L3 21l12.5-5.5c2.5-1.5 3-5 .5-7.5Z" />
-      <path {...cutProps} d="M9 12l2 2M6.5 16.5 8 18M12.5 10.5l1.5 1.5" />
-      <path {...strokeProps} d="M16.5 7.5C17 5.5 16.5 3.5 15.5 2M16.5 7.5c2-.5 4 0 5.5 1M16.5 7.5l4-4" />
+      <path d="M20 3C9 3 4 8.5 4 15.5c0 1.6.3 3.1.9 4.5C11.5 20 20 15 20 3Z" />
+      <path {...cutProps} d="M17 6.5C12 10 8.5 14 5 20.5" />
     </>
   ),
-  ginger: (
+  root: (
     <>
       <ellipse cx="10" cy="15" rx="8.5" ry="4.5" transform="rotate(-20 10 15)" />
       <ellipse cx="17" cy="8" rx="3" ry="4.5" transform="rotate(35 17 8)" />
@@ -67,4 +66,16 @@ export const ingredientIcons = {
       <ellipse cx="17" cy="17.5" rx="3" ry="2.2" transform="rotate(25 17 17.5)" />
     </>
   ),
+};
+
+// One icon per product, shared by the scrolling strip and the ingredients section.
+export const productIcons = {
+  "roasted-coffee": ingredientIcons.coffee,
+  "green-coffee": ingredientIcons.coffee,
+  rosemary: ingredientIcons.rosemary,
+  "orange-seed": ingredientIcons.orangeSeed,
+  "black-seed": ingredientIcons.blackSeed,
+  "rue-plant": ingredientIcons.rue,
+  "complete-green": ingredientIcons.leaf,
+  "re-black-hair": ingredientIcons.root,
 };

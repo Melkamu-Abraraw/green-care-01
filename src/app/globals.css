@@ -6,6 +6,10 @@
   --color-brand-dark: #0c2818;
   --color-brand-green: #517b38;
   --color-brand-white: #ffffff;
+  /* logo-green is the product card's text and button green. Lime is from logo.png and too light for
+     text on white, so use it for accents only. */
+  --color-logo-green: #517b3b;
+  --color-logo-lime: #98f83d;
 
   /* Theme colors: these follow light/dark mode, while the brand colors above never change.
      Use them for page backgrounds, body text, tints and text-sized green. */
@@ -147,10 +151,19 @@ body:has(.hero, .page-banner) .site-header[data-scrolled="true"] {
 
 /* Endless scroll: the track holds identical copies, so sliding by half lands on an identical frame. */
 .category-strip-track {
-  animation: category-strip-scroll 100s linear infinite;
+  animation: category-strip-scroll 110s linear infinite;
 }
 .category-strip:hover .category-strip-track {
   animation-play-state: paused;
+}
+.category-strip-viewport {
+  mask-image: linear-gradient(to right, transparent, black 9%, black 91%, transparent);
+}
+.category-strip-name {
+  transition: color 250ms ease;
+}
+.category-strip-item:hover .category-strip-name {
+  color: var(--color-brand-gold);
 }
 @keyframes category-strip-scroll {
   to {
@@ -158,21 +171,47 @@ body:has(.hero, .page-banner) .site-header[data-scrolled="true"] {
   }
 }
 
-/* Mouse users see the card buttons on hover; touch screens have no hover, so they stay visible there. */
+/* About page inspiration: words start faint and fill in one after another while the paragraph
+   scrolls up the screen. Browsers without scroll-driven animations show the words at full strength. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .about-statement-word {
+      animation: about-statement-word-in linear both;
+      animation-timeline: view();
+      animation-range: cover calc(10% + var(--word-progress) * 35%) cover
+        calc(18% + var(--word-progress) * 35%);
+    }
+  }
+}
+@keyframes about-statement-word-in {
+  from {
+    opacity: 0.15;
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Product cards: mouse users see the image arrows, dots and Add to cart button on hover (or keyboard
+   focus); touch screens always see them. The button keeps its space, so cards don't jump. */
 @media (hover: hover) {
-  .product-card-action {
+  .home-card-control {
     opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .home-card-cta {
+    opacity: 0;
+    transform: translateY(0.375rem);
     transition:
       opacity 300ms ease,
-      transform 300ms ease,
-      background-color 150ms ease,
-      color 150ms ease;
+      transform 300ms ease;
   }
-  .product-card-cart {
-    transform: translateY(0.5rem);
-  }
-  .product-card:hover .product-card-action,
-  .product-card:focus-within .product-card-action {
+  .home-card:hover .home-card-control,
+  .home-card:focus-within .home-card-control,
+  .home-card:hover .home-card-cta,
+  .home-card:focus-within .home-card-cta {
     opacity: 1;
     transform: none;
   }
@@ -277,12 +316,376 @@ body:has(.hero, .page-banner) .site-header[data-scrolled="true"] {
     width: auto;
     justify-content: center;
   }
+  .category-strip-viewport {
+    mask-image: none;
+  }
   .category-strip-list {
     flex-wrap: wrap;
     justify-content: center;
-    row-gap: 0.75rem;
+    row-gap: 0.5rem;
   }
   .category-strip-list[aria-hidden="true"] {
     display: none;
+  }
+}
+
+/* ---------- Loading and page transitions ---------- */
+
+/* First-visit splash: the logo breathes in, a gold line fills, then the whole screen fades away. */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  background: var(--color-surface);
+  pointer-events: none;
+  animation: splash-out 500ms ease-in 1100ms forwards;
+}
+.splash-logo {
+  width: 5.5rem;
+  height: auto;
+  animation: splash-logo-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.splash-bar {
+  position: relative;
+  width: 7rem;
+  height: 1px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-ink) 12%, transparent);
+}
+.splash-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-brand-gold);
+  transform-origin: left;
+  animation: splash-bar-fill 1000ms cubic-bezier(0.65, 0, 0.35, 1) 100ms both;
+}
+html[data-splash-seen] .splash {
+  display: none;
+}
+@keyframes splash-logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(4px);
+  }
+}
+@keyframes splash-bar-fill {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes splash-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Skeleton placeholders: a soft light sweeps across while content loads. */
+.skeleton {
+  background: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in srgb, var(--color-surface) 70%, transparent) 50%,
+      transparent 70%
+    )
+    color-mix(in srgb, var(--color-ink) 6%, transparent);
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-sweep {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+/* Page navigation (PageTransition.js): the old page leaves fast, the new one arrives gently. */
+::view-transition-old(.page-exit) {
+  animation: 180ms ease-in both vt-fade-out;
+}
+::view-transition-new(.page-enter) {
+  animation:
+    320ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both vt-fade-in,
+    520ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both vt-rise;
+}
+
+/* Product page: the skeleton drops away, then the product rises into place. */
+::view-transition-old(.skeleton-exit) {
+  animation: 150ms ease-out both vt-fade-out, 150ms ease-out both vt-sink;
+}
+::view-transition-new(.content-enter) {
+  animation:
+    260ms ease-out 150ms both vt-fade-in,
+    420ms cubic-bezier(0.22, 1, 0.36, 1) 150ms both vt-rise;
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+@keyframes vt-rise {
+  from {
+    transform: translateY(16px);
+  }
+}
+@keyframes vt-sink {
+  to {
+    transform: translateY(10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash {
+    display: none;
+  }
+  .skeleton {
+    animation: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* shadcn Select menu (components/ui/select.jsx): fades and scales in from the trigger. */
+.select-content[data-state="open"] {
+  animation: select-in 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.select-content[data-state="closed"] {
+  animation: select-out 120ms ease-in;
+}
+@keyframes select-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+}
+@keyframes select-out {
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .select-content[data-state] {
+    animation: none;
+  }
+}
+
+/* Ingredients section (ProductIngredients.js).
+   Reveal: as each item scrolls in, its icon pops in with a small turn and the line under the name draws.
+   Hover: the circle fills green, the icon turns white and tilts, and the line stretches. */
+.ingredient-icon {
+  transition:
+    background-color 400ms ease,
+    color 400ms ease,
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 400ms ease;
+}
+.ingredient-glyph {
+  transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ingredient-rule {
+  transform-origin: left;
+  transition:
+    width 400ms ease,
+    background-color 400ms ease;
+}
+.ingredient-item:hover .ingredient-icon {
+  --ingredient-circle: var(--color-logo-green);
+  color: var(--color-brand-white);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgb(81 123 59 / 0.25);
+}
+.ingredient-item:hover .ingredient-glyph {
+  transform: rotate(-12deg) scale(1.1);
+}
+.ingredient-item:hover .ingredient-rule {
+  width: 3.5rem;
+  background-color: var(--color-logo-green);
+}
+
+.ingredient-item[data-reveal-state="pending"] .ingredient-icon {
+  transform: scale(0.6) rotate(-25deg);
+  opacity: 0;
+}
+.ingredient-item[data-reveal-state="pending"] .ingredient-rule {
+  transform: scaleX(0);
+}
+.ingredient-item[data-reveal-state="shown"] .ingredient-icon {
+  animation: ingredient-pop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--reveal-order, 0) * 100ms + 150ms);
+}
+.ingredient-item[data-reveal-state="shown"] .ingredient-rule {
+  animation: ingredient-draw 600ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--reveal-order, 0) * 100ms + 350ms);
+}
+@keyframes ingredient-pop {
+  from {
+    transform: scale(0.6) rotate(-25deg);
+    opacity: 0;
+  }
+}
+@keyframes ingredient-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ingredient-icon,
+  .ingredient-glyph,
+  .ingredient-rule {
+    transition: none;
+    animation: none !important;
+  }
+  .ingredient-item:hover .ingredient-icon,
+  .ingredient-item:hover .ingredient-glyph {
+    transform: none;
+  }
+}
+
+/* Awards section (Standards.js).
+   Reveal: the laurels swing up, each badge settles in from a slight turn, its outline draws itself
+   and the gold ribbon unrolls from the middle.
+   Hover: the badge lifts and the dotted inner ring slowly turns. */
+.award-badge {
+  overflow: visible;
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), filter 400ms ease;
+}
+.award-dashes {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.award-ribbon {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.award-item:hover .award-badge {
+  transform: translateY(-6px) scale(1.04);
+  filter: drop-shadow(0 10px 14px rgb(215 162 41 / 0.25));
+}
+.award-item:hover .award-dashes {
+  animation: award-spin 8s linear infinite;
+}
+
+.award-item[data-reveal-state="pending"] .award-badge {
+  transform: scale(0.85) rotate(-8deg);
+}
+.award-item[data-reveal-state="shown"] .award-badge {
+  animation: award-settle 800ms cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: calc(var(--reveal-order, 0) * 100ms);
+}
+.award-item[data-reveal-state="shown"] .award-ring > * {
+  stroke-dasharray: 1;
+  animation: award-draw 1100ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
+  animation-delay: calc(var(--reveal-order, 0) * 100ms + 100ms);
+}
+.award-item[data-reveal-state="shown"] .award-ribbon {
+  animation: award-unroll 600ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--reveal-order, 0) * 100ms + 450ms);
+}
+
+.laurel {
+  transform-box: view-box;
+  transform-origin: 60px 104px;
+}
+.awards-heading[data-reveal-state="shown"] .laurel {
+  animation: laurel-rise 900ms cubic-bezier(0.22, 1, 0.36, 1) 150ms backwards;
+}
+
+@keyframes award-settle {
+  from {
+    transform: scale(0.85) rotate(-8deg);
+  }
+}
+@keyframes award-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes award-unroll {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes award-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes laurel-rise {
+  from {
+    transform: rotate(-35deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .award-badge,
+  .award-dashes,
+  .award-ring > *,
+  .award-ribbon,
+  .laurel {
+    transition: none;
+    animation: none !important;
+  }
+  .award-item:hover .award-badge,
+  .award-item[data-reveal-state="pending"] .award-badge {
+    transform: none;
+  }
+}
+
+/* Product photo pop-up (PhotoLightbox.js): the backdrop fades in, the card rises into place,
+   and each photo fades in as you move between them. */
+.lightbox[open] {
+  animation: lightbox-card-in 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lightbox[open]::backdrop {
+  animation: lightbox-in 250ms ease-out;
+}
+.lightbox-photo {
+  animation: lightbox-photo-in 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes lightbox-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+}
+@keyframes lightbox-photo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox[open],
+  .lightbox[open]::backdrop,
+  .lightbox-photo {
+    animation: none;
   }
 }

@@ -77,6 +77,34 @@ function ThemeToggle() {
   );
 }
 
+function CartLink({ count }) {
+  return (
+    <Link href="/cart" aria-label={`Cart, ${count} items`} className={iconLinkClass}>
+      <Icon>
+        <path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 7H6" />
+        <circle cx="10" cy="20.5" r="1.25" />
+        <circle cx="18" cy="20.5" r="1.25" />
+      </Icon>
+      <span className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-brand-gold text-xs font-medium text-brand-dark">
+        {count}
+      </span>
+    </Link>
+  );
+}
+
+const searchIcon = (
+  <>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20.5 20.5-4.5-4.5" />
+  </>
+);
+const accountIcon = (
+  <>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
+  </>
+);
+
 export default function Navbar() {
   const cartCount = useSyncExternalStore(
     subscribeToCart,
@@ -109,8 +137,8 @@ export default function Navbar() {
       data-scrolled={isScrolled}
     >
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 md:px-8">
-        {/* The three icons on the right fill their column on small phones, so the theme toggle sits here instead. */}
-        <div className="col-start-1 row-start-1 flex items-center justify-self-start md:hidden">
+        {/* Phones: the logo sits left; theme toggle, cart and menu button sit right. Search and account live in the menu. */}
+        <div className="col-start-3 row-start-1 flex flex-row-reverse items-center gap-2.5 justify-self-end md:hidden">
           <button
             ref={menuButtonRef}
             type="button"
@@ -124,6 +152,7 @@ export default function Navbar() {
               <path d="M4 7h16M4 12h16M4 17h16" />
             </Icon>
           </button>
+          <CartLink count={cartCount} />
           <ThemeToggle />
         </div>
 
@@ -134,19 +163,19 @@ export default function Navbar() {
           aria-hidden="true"
         />
 
-        {/* On phones this is a panel that slides in from the left. "invisible" keeps its links out of tab order while closed, and only applies after the slide out finishes. */}
+        {/* On phones this is a panel that slides in from the right. "invisible" keeps its links out of tab order while closed, and only applies after the slide out finishes. */}
         <nav
           id="main-menu"
           aria-label="Main"
           data-open={isMenuOpen}
-          className={`md:col-start-1 md:row-start-1 max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-40 max-md:w-72 max-md:max-w-[80vw] max-md:overflow-y-auto max-md:bg-brand-dark max-md:text-brand-white max-md:shadow-xl max-md:[--nav-hover:var(--color-brand-gold)] motion-reduce:transition-none! ${isMenuOpen ? "max-md:translate-x-0 max-md:[transition:translate_500ms_cubic-bezier(0.22,1,0.36,1)]" : "max-md:invisible max-md:-translate-x-full max-md:[transition:translate_500ms_cubic-bezier(0.22,1,0.36,1),visibility_0s_500ms]"}`}
+          className={`md:col-start-1 md:row-start-1 max-md:fixed max-md:inset-y-0 max-md:right-0 max-md:z-40 max-md:w-72 max-md:max-w-[80vw] max-md:overflow-y-auto max-md:bg-brand-dark max-md:text-brand-white max-md:shadow-xl max-md:[--nav-hover:var(--color-brand-gold)] motion-reduce:transition-none! ${isMenuOpen ? "max-md:translate-x-0 max-md:[transition:translate_500ms_cubic-bezier(0.22,1,0.36,1)]" : "max-md:invisible max-md:translate-x-full max-md:[transition:translate_500ms_cubic-bezier(0.22,1,0.36,1),visibility_0s_500ms]"}`}
         >
           <button
             ref={closeButtonRef}
             type="button"
             onClick={closeMenu}
             aria-label="Close menu"
-            className={`${iconLinkClass} mt-4 ml-4 md:hidden`}
+            className={`${iconLinkClass} mt-4 mr-4 ml-auto w-fit md:hidden`}
           >
             <Icon>
               <path d="M6 6l12 12M18 6 6 18" />
@@ -165,12 +194,41 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
+          {/* Phones only: search and account move here from the header. */}
+          <ul className="mx-6 flex flex-col border-t border-brand-white/15 py-4 md:hidden">
+            {[
+              { href: "/search", label: "Search", icon: searchIcon },
+              { href: "/account", label: "Account", icon: accountIcon },
+            ].map(({ href, label, icon }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`${menuFont.className} flex items-center gap-3 py-3 text-[17px] font-medium tracking-wide uppercase transition-colors hover:text-(color:--nav-hover)`}
+                >
+                  <svg
+                    className="size-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    {icon}
+                  </svg>
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </nav>
 
         <Link
           href="/"
           aria-label="Ye Green Care home"
-          className={`col-start-2 row-start-1 flex flex-col items-center justify-center rounded-b-full text-center text-brand-white transition-all duration-300 motion-reduce:transition-none ${isScrolled ? "h-16 w-20 md:h-20 md:w-24" : "h-28 w-24 gap-1 bg-brand-dark pb-3 md:h-34 md:w-28 md:gap-2 md:pb-4"}`}
+          className={`col-start-1 row-start-1 flex flex-col items-center justify-self-start md:col-start-2 md:justify-self-auto justify-center rounded-b-full text-center text-brand-white transition-all duration-300 motion-reduce:transition-none ${isScrolled ? "h-16 w-20 md:h-20 md:w-24" : "h-28 w-24 gap-1 bg-brand-dark pb-3 md:h-34 md:w-28 md:gap-2 md:pb-4"}`}
         >
           <span
             className={`${logoFont.className} text-lg leading-none md:text-xl ${isScrolled ? "hidden" : ""}`}
@@ -188,36 +246,15 @@ export default function Navbar() {
           />
         </Link>
 
-        <div className="col-start-3 row-start-1 flex items-center justify-self-end md:gap-4">
-          <div className="hidden md:block">
-            <ThemeToggle />
-          </div>
+        <div className="col-start-3 row-start-1 hidden items-center justify-self-end gap-4 md:flex">
+          <ThemeToggle />
           <Link href="/search" aria-label="Search" className={iconLinkClass}>
-            <Icon>
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20.5 20.5-4.5-4.5" />
-            </Icon>
+            <Icon>{searchIcon}</Icon>
           </Link>
           <Link href="/account" aria-label="Account" className={iconLinkClass}>
-            <Icon>
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
-            </Icon>
+            <Icon>{accountIcon}</Icon>
           </Link>
-          <Link
-            href="/cart"
-            aria-label={`Cart, ${cartCount} items`}
-            className={iconLinkClass}
-          >
-            <Icon>
-              <path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 7H6" />
-              <circle cx="10" cy="20.5" r="1.25" />
-              <circle cx="18" cy="20.5" r="1.25" />
-            </Icon>
-            <span className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-brand-gold text-xs font-medium text-brand-dark">
-              {cartCount}
-            </span>
-          </Link>
+          <CartLink count={cartCount} />
         </div>
       </div>
     </header>

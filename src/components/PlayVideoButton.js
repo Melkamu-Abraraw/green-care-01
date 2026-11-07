@@ -27,7 +27,7 @@ export default function PlayVideoButton() {
         <span className="font-(family-name:--font-montserrat) text-sm font-medium">Play Video</span>
       </button>
 
-      {/* Clicking the backdrop lands on the dialog itself. The video is 87 MB, so nothing loads until it's opened. */}
+      {/* Clicking the backdrop lands on the dialog itself. It's the home page hero video (113 MB), so nothing loads until it's opened. */}
       <dialog
         ref={dialogRef}
         aria-label="Ye Green Care video"
@@ -45,12 +45,12 @@ export default function PlayVideoButton() {
         <video
           ref={videoRef}
           className="aspect-video w-full bg-brand-dark"
-          poster="/videos/poster_2.png"
+          poster="/videos/ye-green-care-poster.png"
           preload="none"
           controls
           playsInline
         >
-          <source src="/videos/ye%20green%20new.mp4" type="video/mp4" />
+          <source src="/videos/green%20new%20.mp4" type="video/mp4" />
         </video>
       </dialog>
     </>

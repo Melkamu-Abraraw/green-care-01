@@ -63,23 +63,26 @@ export default function Hero() {
     <section className="hero relative h-svh overflow-hidden bg-brand-dark">
       <video
         className="hero-video absolute inset-0 size-full object-cover"
-        poster="/videos/poster_2.png"
+        poster="/videos/ye-green-care-poster.png"
         autoPlay
         muted
         loop
         playsInline
         aria-hidden="true"
       >
-        <source src="/videos/ye%20green%20new.mp4" type="video/mp4" />
+        <source src="/videos/green%20new%20.mp4" type="video/mp4" />
       </video>
 
       {/* Keeps the white nav and social icons readable on the video's pale frames. */}
-      <div className="absolute inset-0 bg-black/35" />
-      <div className="absolute inset-x-0 top-0 h-56 bg-linear-to-b from-black/40 to-transparent" />
+      <div className="absolute inset-0 bg-black/3" />
+      <div className="absolute inset-x-0 top-0 h-56 bg-linear-to-b from-black/8 to-transparent" />
 
       <div className="absolute inset-x-0 top-[76%] -translate-y-1/2 px-4 text-center text-brand-white md:top-1/2">
         <h1>
-          <span className="sr-only">Ye Green Care: for beautiful hair and body</span>
+          <span className="sr-only">
+            {" "}
+            Green Care: for beautiful hair and body
+          </span>
           <span className="block" aria-hidden="true">
             <PhraseLines field="subtitle" className="hero-subtitle" />
             <span className="mx-auto my-3 block h-px w-8 bg-current" />
@@ -108,7 +111,12 @@ export default function Hero() {
                 aria-label={link.label}
                 className="block transition-colors hover:text-brand-gold"
               >
-                <svg className="size-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <svg
+                  className="size-5"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
                   {link.icon}
                 </svg>
               </a>

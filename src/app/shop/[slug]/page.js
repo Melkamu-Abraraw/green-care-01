@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import PageBanner from "@/components/PageBanner";
 import ProductCard from "@/components/ProductCard";
 import ProductGallery from "@/components/ProductGallery";
 import ProductSummary from "@/components/ProductSummary";
 import { products } from "@/components/products";
 import ScrollReveal from "@/components/ScrollReveal";
+import PageTransition from "@/components/PageTransition";
 
 const productLayoutClass =
   "mx-auto grid max-w-7xl items-start gap-10 px-4 py-12 md:px-8 md:py-20 lg:grid-cols-[55fr_45fr] lg:gap-14";
@@ -23,7 +24,10 @@ export async function generateMetadata({ params }) {
   const product = findProduct(slug);
   if (!product) return {};
 
-  return { title: `${product.name} | Green Care`, description: product.summary };
+  return {
+    title: `${product.fullName ?? product.name} | Green Care`,
+    description: product.summary,
+  };
 }
 
 async function ProductContent({ params }) {
@@ -31,7 +35,9 @@ async function ProductContent({ params }) {
   const product = findProduct(slug);
   if (!product) notFound();
 
-  const relatedProducts = products.filter((other) => other.slug !== slug).slice(0, 4);
+  const relatedProducts = products
+    .filter((other) => other.slug !== slug)
+    .slice(0, 4);
 
   return (
     <>
@@ -44,6 +50,7 @@ async function ProductContent({ params }) {
           key={`gallery-${slug}`}
           slug={slug}
           model={product.model}
+          photos={[product.front, ...product.gallery].filter(Boolean)}
           productName={product.name}
         />
         <ProductSummary key={`summary-${slug}`} product={product} />
@@ -60,9 +67,13 @@ async function ProductContent({ params }) {
         >
           Related products
         </h2>
-        <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-8 md:mt-8 md:gap-x-6 lg:grid-cols-4">
+        <ul className="mt-6 grid grid-cols-2 gap-3 md:mt-8 md:gap-5 lg:grid-cols-4">
           {relatedProducts.map((relatedProduct, index) => (
-            <ProductCard key={relatedProduct.slug} product={relatedProduct} index={index} />
+            <ProductCard
+              key={relatedProduct.slug}
+              product={relatedProduct}
+              index={index}
+            />
           ))}
         </ul>
       </section>
@@ -73,11 +84,11 @@ async function ProductContent({ params }) {
 function ProductContentFallback() {
   return (
     <div className={productLayoutClass} aria-hidden="true">
-      <div className="aspect-square bg-ink/5" />
+      <div className="skeleton mx-auto aspect-square w-full max-w-md rounded-lg" />
       <div className="space-y-4">
-        <div className="h-12 w-3/4 bg-ink/5" />
-        <div className="h-8 w-20 bg-ink/5" />
-        <div className="h-24 bg-ink/5" />
+        <div className="skeleton h-12 w-3/4 rounded-md" />
+        <div className="skeleton h-8 w-20 rounded-md" />
+        <div className="skeleton h-24 rounded-md" />
       </div>
     </div>
   );
@@ -85,14 +96,25 @@ function ProductContentFallback() {
 
 export default function ProductPage({ params }) {
   return (
-    <main>
-      {/* A paragraph here, because the product name is this page's main heading. */}
-      <PageBanner titleAs="p">Shop</PageBanner>
+    <PageTransition>
+      <main>
+        {/* A paragraph here, because the product name is this page's main heading. */}
+        <PageBanner titleAs="p">Shop</PageBanner>
 
-      {/* The slug belongs to one URL, so it stays behind Suspense for instant navigation. */}
-      <Suspense fallback={<ProductContentFallback />}>
-        <ProductContent params={params} />
-      </Suspense>
-    </main>
+        {/* The slug belongs to one URL, so it stays behind Suspense for instant navigation. */}
+        {/* The skeleton slides down and out, then the product slides up into its place. */}
+        <Suspense
+          fallback={
+            <ViewTransition exit="skeleton-exit" default="none">
+              <ProductContentFallback />
+            </ViewTransition>
+          }
+        >
+          <ViewTransition enter="content-enter" default="none">
+            <ProductContent params={params} />
+          </ViewTransition>
+        </Suspense>
+      </main>
+    </PageTransition>
   );
 }

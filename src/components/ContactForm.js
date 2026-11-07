@@ -4,7 +4,8 @@ import { useState } from "react";
 import { contactInfo } from "@/components/contactInfo";
 
 const fieldClass =
-  "w-full border border-ink/30 bg-surface px-4 py-3 outline-none placeholder:text-ink/70 focus-visible:border-ink focus-visible:outline-1 focus-visible:outline-ink";
+  "mt-1.5 w-full rounded-md border-[0.5px] border-ink/25 bg-transparent px-4 py-3 text-base outline-none transition-colors placeholder:text-ink/35 focus-visible:border-ink focus-visible:ring-[0.5px] focus-visible:ring-ink";
+const labelClass = "text-sm text-ink/60";
 
 export default function ContactForm() {
   const [status, setStatus] = useState("");
@@ -23,43 +24,68 @@ export default function ContactForm() {
   return (
     <section
       aria-labelledby="contact-form-title"
-      className="bg-ink/5 px-4 py-16 md:px-16 md:py-20 xl:px-20"
+      className="rounded-lg border-[0.5px] border-ink/15 p-6 md:p-10"
     >
-      {/* Same type as the product grid; important overrides the serif set on all headings in globals.css. */}
-      <h2
-        id="contact-form-title"
-        className="font-(family-name:--font-montserrat)! text-3xl leading-tight font-semibold xl:text-4xl"
-      >
-        Get In Touch
+      <h2 id="contact-form-title" className="text-2xl leading-tight font-medium md:text-3xl">
+        Send us a message
       </h2>
 
-      <form
-        onSubmit={handleSubmit}
-        className="mt-8 flex max-w-xl flex-col gap-5 font-(family-name:--font-montserrat) text-sm"
-      >
-        <label>
-          <span className="sr-only">Name</span>
-          <input name="name" type="text" autoComplete="name" required placeholder="Name" className={fieldClass} />
+      <form onSubmit={handleSubmit} className="mt-8 grid gap-5 sm:grid-cols-2">
+        <label className="block">
+          <span className={labelClass}>Name</span>
+          <input
+            name="name"
+            type="text"
+            autoComplete="name"
+            required
+            placeholder="Your name"
+            className={fieldClass}
+          />
         </label>
-        <label>
-          <span className="sr-only">Email</span>
-          <input name="email" type="email" autoComplete="email" required placeholder="Email" className={fieldClass} />
+        <label className="block">
+          <span className={labelClass}>Email</span>
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="you@example.com"
+            className={fieldClass}
+          />
         </label>
-        <label>
-          <span className="sr-only">Message</span>
-          <textarea name="message" rows={4} required placeholder="Message" className={`${fieldClass} block resize-y`} />
+        <label className="block sm:col-span-2">
+          <span className={labelClass}>Message</span>
+          <textarea
+            name="message"
+            rows={5}
+            required
+            placeholder="How can we help?"
+            className={`${fieldClass} block resize-y`}
+          />
         </label>
-        <div>
+        <div className="sm:col-span-2">
           <button
             type="submit"
-            className="bg-brand-dark px-10 py-3 font-(family-name:--font-montserrat) text-sm font-medium tracking-[0.15em] text-brand-gold uppercase transition-colors hover:bg-brand-green dark:bg-brand-gold dark:text-brand-dark hover:text-brand-white"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-md bg-ink px-8 py-3.5 text-base font-semibold text-surface transition-colors hover:bg-brand-green hover:text-brand-white sm:w-auto"
           >
             Send message
+            <svg
+              className="size-4 transition-transform duration-300 motion-safe:group-hover:translate-x-1"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
           </button>
+          <p role="status" className="mt-3 text-sm text-ink/70 empty:hidden">
+            {status}
+          </p>
         </div>
-        <p role="status" className="min-h-6">
-          {status}
-        </p>
       </form>
     </section>
   );

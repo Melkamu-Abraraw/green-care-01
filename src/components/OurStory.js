@@ -44,11 +44,12 @@ export default function OurStory() {
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <Image
           data-reveal
-          src="/images/our-story.png"
-          alt="A bottle of Ye Green Care coffee bean oil beside coffee beans and leaves"
-          width={1077}
-          height={861}
+          src="/images/our-story-collection.png"
+          alt="The Ye Green Care oil collection among leaves, coffee beans, rosemary and fruit"
+          width={1388}
+          height={886}
           sizes="(min-width: 1024px) 600px, 90vw"
+          quality={90}
           className="mx-auto h-auto w-full max-w-xl"
         />
 

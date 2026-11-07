@@ -31,8 +31,8 @@ export default function AboutIntro() {
           </div>
           <div className="absolute right-0 bottom-0 h-[57%] w-[68%] overflow-hidden rounded-[1.25rem]">
             <Image
-              src="/videos/poster_2.png"
-              alt="A row of Green Care oil bottles among fresh ingredients"
+              src="/images/story_image.png"
+              alt="The Ye Green Care oil collection among leaves, coffee beans, rosemary and fruit"
               fill
               sizes="(min-width: 1024px) 390px, 68vw"
               className="object-cover"
@@ -50,21 +50,26 @@ export default function AboutIntro() {
           >
             Thoughtful Care From The Ground Up
           </h2>
-          {/* Facts from ye-greencarenaturals.com. */}
+          {/* From ye-greencarenaturals.com/about-us. */}
           <p className="mt-6 text-lg">
-            Ye Green Care was founded in 2018 by Gizaw Bekele Begashaw, a well-known herbalist in
-            Ethiopia and the Ethiopian Diaspora with 15 years of research into Ethiopian herbs and
-            their uses. That research led to our coffee bean oil, made without infused oil or
-            solvent extraction: 200 mL of oil from every 1 kg of coffee beans.
+            Our founder, Gizaw Bekele Begashaw, is a well-known herbalist in Ethiopia and the
+            Ethiopian diaspora. He holds a diploma in herbal science and has spent the last 15
+            years researching Ethiopian herbs and their uses, bringing his healing service to tens
+            of thousands of Ethiopians.
+          </p>
+          <p className="mt-4 text-lg">
+            His research now focuses on Ethiopian coffee oil. With his own method, using no
+            infused oil and no solvent extraction, he draws 200 mL of potent, edible-grade coffee
+            oil from every 1 kg of coffee beans.
           </p>
           <div className="mt-8">
             <PlayVideoButton />
           </div>
           <Link
             href="/shop"
-            className="mt-8 inline-block bg-brand-dark px-12 py-4 font-(family-name:--font-montserrat) text-sm font-medium tracking-[0.15em] text-brand-gold uppercase transition-colors hover:bg-brand-green dark:bg-brand-gold dark:text-brand-dark hover:text-brand-white"
+            className="mt-8 inline-block bg-brand-gold px-12 py-4 font-(family-name:--font-montserrat) text-sm font-medium tracking-[0.15em] text-brand-dark uppercase transition-colors hover:bg-[#bf8c1c]"
           >
-            Shop our oils
+            Go to shop
           </Link>
         </div>
       </div>

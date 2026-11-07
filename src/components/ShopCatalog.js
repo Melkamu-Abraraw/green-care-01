@@ -4,16 +4,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState, useSyncExternalStore } from "react";
-import { addToCart, getCartCount, subscribeToCart } from "@/components/cartStore";
+import {
+  addToCart,
+  getCartCount,
+  subscribeToCart,
+} from "@/components/cartStore";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/components/products";
 import Rating from "@/components/Rating";
-import SocialLinks from "@/components/SocialLinks";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
+// `value` is what goes in the URL's ?sort=.
 const sortOptions = [
-  { value: "default", label: "Default sorting" },
-  { value: "price", label: "Sort by price: low to high" },
-  { value: "price-desc", label: "Sort by price: high to low" },
+  { value: "default", label: "Featured" },
+  { value: "price", label: "Price: low to high" },
+  { value: "price-desc", label: "Price: high to low" },
+  { value: "name", label: "Name: A to Z" },
 ];
 
 const categories = [
@@ -24,7 +36,9 @@ const categories = [
   ).values(),
 ];
 
-const prices = products.map((product) => product.price).filter((price) => price !== undefined);
+const prices = products
+  .map((product) => product.price)
+  .filter((price) => price !== undefined);
 const lowestPrice = Math.min(...prices);
 const highestPrice = Math.max(...prices);
 
@@ -43,7 +57,9 @@ function readFilters(searchParams) {
 
   return {
     search: (searchParams.get("q") ?? "").trim(),
-    category: categories.some(({ slug }) => slug === category) ? category : null,
+    category: categories.some(({ slug }) => slug === category)
+      ? category
+      : null,
     sort: sortOptions.some(({ value }) => value === sort) ? sort : "default",
     min: readPrice(searchParams, "min", lowestPrice),
     max: readPrice(searchParams, "max", highestPrice),
@@ -65,7 +81,15 @@ function shopHref({ search, category, sort, min, max }) {
 
 // Every word must appear somewhere in the product, so "hair oil" and "ginseng" both find results.
 function matchesSearch(product, search) {
-  const text = [product.name, product.summary, product.category?.name, ...product.details.flat()]
+  const text = [
+    product.name,
+    product.fullName,
+    product.summary,
+    product.description,
+    product.ingredients,
+    product.category?.name,
+    ...product.details.flat(),
+  ]
     .join(" ")
     .toLowerCase();
   return search
@@ -86,11 +110,17 @@ function findProducts({ search, category, sort, min, max }) {
 
   // Unpriced products sort last in both directions.
   if (sort === "price") {
-    return matches.toSorted((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+    return matches.toSorted(
+      (a, b) => (a.price ?? Infinity) - (b.price ?? Infinity),
+    );
   }
   if (sort === "price-desc") {
-    return matches.toSorted((a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
+    return matches.toSorted(
+      (a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity),
+    );
   }
+  if (sort === "name")
+    return matches.toSorted((a, b) => a.name.localeCompare(b.name));
   return matches;
 }
 
@@ -134,14 +164,15 @@ function SearchWidget({ filters, onApply }) {
           defaultValue={filters.search}
           onChange={(event) => {
             // The browser's clear button empties the field without submitting the form.
-            if (event.target.value === "" && filters.search) onApply({ search: "" });
+            if (event.target.value === "" && filters.search)
+              onApply({ search: "" });
           }}
           className="min-w-0 grow bg-transparent px-3 py-2.5 outline-offset-2"
         />
         <button
           type="submit"
           aria-label="Search"
-          className="flex w-11 shrink-0 items-center justify-center bg-brand-green text-brand-white transition-colors hover:bg-brand-gold hover:text-brand-dark"
+          className="flex w-11 shrink-0 items-center justify-center bg-logo-green text-brand-white transition-colors hover:bg-logo-green/85"
         >
           <svg
             className="size-5"
@@ -203,7 +234,9 @@ function PriceWidget({ filters, onApply }) {
             min={lowestPrice}
             max={highestPrice}
             value={min}
-            onChange={(event) => setMin(Math.min(Number(event.target.value), max))}
+            onChange={(event) =>
+              setMin(Math.min(Number(event.target.value), max))
+            }
           />
           <input
             type="range"
@@ -211,7 +244,9 @@ function PriceWidget({ filters, onApply }) {
             min={lowestPrice}
             max={highestPrice}
             value={max}
-            onChange={(event) => setMax(Math.max(Number(event.target.value), min))}
+            onChange={(event) =>
+              setMax(Math.max(Number(event.target.value), min))
+            }
           />
         </div>
         <p className="mt-4 text-right">
@@ -223,7 +258,7 @@ function PriceWidget({ filters, onApply }) {
         <div className="mt-3 text-right">
           <button
             type="submit"
-            className="bg-ink/10 px-6 py-3 font-(family-name:--font-montserrat) text-xs font-medium tracking-[0.15em] uppercase transition-colors hover:bg-brand-green hover:text-brand-white"
+            className="bg-ink/10 px-6 py-3 font-(family-name:--font-montserrat) text-xs font-medium tracking-[0.15em] uppercase transition-colors hover:bg-logo-green hover:text-brand-white"
           >
             Filter
           </button>
@@ -240,7 +275,7 @@ function CategoryLink({ href, isActive, children }) {
         href={href}
         scroll={false}
         aria-current={isActive ? "true" : undefined}
-        className={`transition-colors hover:text-accent ${isActive ? "font-semibold text-accent" : ""}`}
+        className={`transition-colors hover:text-logo-green dark:hover:text-accent ${isActive ? "font-semibold text-logo-green dark:text-accent" : ""}`}
       >
         {children}
       </Link>
@@ -252,7 +287,10 @@ function CategoriesWidget({ filters }) {
   return (
     <Widget title="Categories">
       <ul className="list-disc space-y-1.5 pl-4 marker:text-brand-gold">
-        <CategoryLink href={shopHref({ ...filters, category: null })} isActive={!filters.category}>
+        <CategoryLink
+          href={shopHref({ ...filters, category: null })}
+          isActive={!filters.category}
+        >
           All products
         </CategoryLink>
         {categories.map(({ name, slug }) => (
@@ -269,14 +307,6 @@ function CategoriesWidget({ filters }) {
   );
 }
 
-function FollowWidget() {
-  return (
-    <Widget title="Follow us" titleId="shop-social">
-      <SocialLinks labelledBy="shop-social" />
-    </Widget>
-  );
-}
-
 function ViewButton({ label, isActive, onClick, children }) {
   return (
     <button
@@ -284,9 +314,13 @@ function ViewButton({ label, isActive, onClick, children }) {
       onClick={onClick}
       aria-label={label}
       aria-pressed={isActive}
-      className={`transition-colors hover:text-brand-gold ${isActive ? "text-brand-gold" : "text-ink/30"}`}
+      className={`transition-colors hover:text-ink ${isActive ? "text-logo-green dark:text-accent" : "text-ink/25"}`}
     >
-      <svg className="size-7 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+      <svg
+        className="size-6 fill-current"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
         {children}
       </svg>
     </button>
@@ -295,15 +329,15 @@ function ViewButton({ label, isActive, onClick, children }) {
 
 function ShopListItem({ product, imageLoading }) {
   return (
-    <li className="flex items-center gap-4 md:gap-8">
+    <li className="flex items-center gap-4 rounded-lg bg-brand-white p-2.5 text-brand-dark ring-[0.5px] ring-brand-dark/10 transition-shadow duration-300 hover:shadow-[0_10px_28px_rgb(12_40_24/0.08)] md:gap-8">
       <Link
         href={`/shop/${product.slug}`}
         aria-label={`View ${product.name}`}
         tabIndex={-1}
-        className="group relative block aspect-4/5 w-32 shrink-0 overflow-hidden rounded-md bg-ink/5 md:w-44"
+        className="group relative block aspect-square w-32 shrink-0 overflow-hidden rounded-md bg-brand-white md:w-44"
       >
         <Image
-          src={`/images/products/${product.slug}.png`}
+          src={product.front ?? `/images/products/${product.slug}.png`}
           alt=""
           fill
           sizes="(min-width: 768px) 176px, 128px"
@@ -312,28 +346,35 @@ function ShopListItem({ product, imageLoading }) {
         />
       </Link>
 
-      <div className="min-w-0">
-        <span className="block text-sm opacity-60">Ye Green Care</span>
-        {/* Important overrides the serif set on all headings in globals.css. */}
-        <h3 className="mt-1 font-(family-name:--font-montserrat)! text-base font-medium xl:text-lg">
-          <Link href={`/shop/${product.slug}`} className="transition-colors hover:text-accent">
-            {product.name}
-          </Link>
-        </h3>
-        <p className="mt-1">
-          <span className="font-semibold">
-            {product.price === undefined ? "Price coming soon" : `$${product.price}`}
+      <div className="min-w-0 grow py-2 pr-2">
+        <div className="flex items-baseline justify-between gap-3">
+          <h3 className="text-lg leading-snug font-medium xl:text-xl">
+            <Link
+              href={`/shop/${product.slug}`}
+              className="transition-colors hover:text-logo-green dark:hover:text-accent"
+            >
+              {product.name}
+            </Link>
+          </h3>
+          <span className="shrink-0 font-(family-name:--font-playfair) text-lg xl:text-xl">
+            {product.price === undefined ? "Coming soon" : `$${product.price}`}
           </span>
-          <span className="opacity-60"> · {product.size}</span>
+        </div>
+        <p className="mt-0.5 text-xs tracking-wide uppercase opacity-50">
+          {product.size}
         </p>
-        {product.rating !== undefined && <Rating value={product.rating} className="mt-2" />}
-        <p className="mt-2 hidden md:block">{product.summary}</p>
+        {product.rating !== undefined && (
+          <Rating value={product.rating} className="mt-2" />
+        )}
+        <p className="mt-2 hidden text-sm leading-relaxed opacity-70 md:block">
+          {product.summary}
+        </p>
         {product.price !== undefined && (
           <button
             type="button"
             onClick={() => addToCart()}
             aria-label={`Add ${product.name} to cart`}
-            className="mt-3 bg-brand-green px-4 py-3 font-(family-name:--font-montserrat) text-xs font-medium tracking-[0.15em] whitespace-nowrap text-brand-white uppercase transition-colors hover:bg-brand-gold hover:text-brand-dark md:px-6"
+            className="mt-3 rounded-md border-[0.5px] border-logo-green/50 px-5 py-2 text-sm font-semibold whitespace-nowrap text-logo-green transition-colors hover:border-logo-green hover:bg-logo-green hover:text-brand-white"
           >
             Add to cart
           </button>
@@ -352,8 +393,15 @@ function Catalog({ searchParams }) {
   const matches = findProducts(filters);
   const isList = view === "list";
   const hasFilters =
-    filters.search || filters.category || filters.min !== lowestPrice || filters.max !== highestPrice;
-  const clearedHref = shopHref({ sort: filters.sort, min: lowestPrice, max: highestPrice });
+    filters.search ||
+    filters.category ||
+    filters.min !== lowestPrice ||
+    filters.max !== highestPrice;
+  const clearedHref = shopHref({
+    sort: filters.sort,
+    min: lowestPrice,
+    max: highestPrice,
+  });
 
   function applyFilters(changes) {
     router.push(shopHref({ ...filters, ...changes }), { scroll: false });
@@ -363,7 +411,11 @@ function Catalog({ searchParams }) {
     <div className="mx-auto grid max-w-7xl items-start gap-8 px-4 py-10 md:px-8 md:py-16 lg:grid-cols-[17.5rem_minmax(0,1fr)]">
       <div>
         {/* Keyed so the field follows the URL when filters are cleared or the user goes back. */}
-        <SearchWidget key={filters.search} filters={filters} onApply={applyFilters} />
+        <SearchWidget
+          key={filters.search}
+          filters={filters}
+          onApply={applyFilters}
+        />
         <button
           type="button"
           onClick={() => setAreFiltersOpen(!areFiltersOpen)}
@@ -377,10 +429,13 @@ function Catalog({ searchParams }) {
           className={`mt-4 space-y-px lg:mt-px lg:block ${areFiltersOpen ? "" : "hidden"}`}
         >
           <CartWidget />
-          {/* Keyed so the slider follows the URL when filters are cleared or the user goes back. */}
-          <PriceWidget key={`${filters.min}-${filters.max}`} filters={filters} onApply={applyFilters} />
           <CategoriesWidget filters={filters} />
-          <FollowWidget />
+          {/* Keyed so the slider follows the URL when filters are cleared or the user goes back. */}
+          <PriceWidget
+            key={`${filters.min}-${filters.max}`}
+            filters={filters}
+            onApply={applyFilters}
+          />
         </aside>
       </div>
 
@@ -391,52 +446,75 @@ function Catalog({ searchParams }) {
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
           <div className="flex gap-2">
-            <ViewButton label="Show products as a grid" isActive={!isList} onClick={() => setView("grid")}>
+            <ViewButton
+              label="Show products as a grid"
+              isActive={!isList}
+              onClick={() => setView("grid")}
+            >
               <path d="M2 4h6v4H2zM9 4h6v4H9zM16 4h6v4h-6zM2 10h6v4H2zM9 10h6v4H9zM16 10h6v4h-6zM2 16h6v4H2zM9 16h6v4H9zM16 16h6v4h-6z" />
             </ViewButton>
-            <ViewButton label="Show products as a list" isActive={isList} onClick={() => setView("list")}>
+            <ViewButton
+              label="Show products as a list"
+              isActive={isList}
+              onClick={() => setView("list")}
+            >
               <path d="M2 4h5v4H2zM8 4h14v4H8zM2 10h5v4H2zM8 10h14v4H8zM2 16h5v4H2zM8 16h14v4H8z" />
             </ViewButton>
           </div>
-          <p role="status" className="opacity-70">
+          <p role="status" className="text-sm text-ink/60">
             {resultsLabel(matches.length)}
           </p>
           {hasFilters && (
             <Link
               href={clearedHref}
               scroll={false}
-              className="text-accent underline underline-offset-2 transition-colors hover:text-ink"
+              className="text-sm font-semibold underline underline-offset-4 transition-colors hover:text-logo-green dark:hover:text-accent"
             >
               Clear filters
             </Link>
           )}
-          <select
-            aria-label="Sort products"
-            value={filters.sort}
-            onChange={(event) => applyFilters({ sort: event.target.value })}
-            className="w-full bg-ink/5 px-4 py-3 sm:ml-auto sm:w-auto"
-          >
-            {sortOptions.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
+          <div className="flex w-full items-center gap-2 sm:ml-auto sm:w-auto">
+            <span className="shrink-0 text-sm text-ink/60" aria-hidden="true">
+              Sort by
+            </span>
+            <Select
+              value={filters.sort}
+              onValueChange={(sort) => applyFilters({ sort })}
+            >
+              <SelectTrigger
+                aria-label="Sort products"
+                className="w-full sm:w-48"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {sortOptions.map(({ value, label }) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {matches.length === 0 ? (
-          <p className="mt-6 border border-ink/15 p-8 text-center text-lg">
+          <p className="mt-6 rounded-lg border-[0.5px] border-ink/15 p-8 text-center text-lg text-ink/70">
             No products match your search and filters.
           </p>
         ) : (
           <ul
-            className={`mt-6 grid gap-x-4 gap-y-8 md:gap-x-6 ${isList ? "grid-cols-1" : "grid-cols-2 md:grid-cols-3"}`}
+            className={`mt-6 grid gap-3 md:gap-5 ${isList ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3"}`}
           >
             {matches.map((product, index) => {
               const imageLoading = index < 6 ? "eager" : "lazy";
 
               return isList ? (
-                <ShopListItem key={product.slug} product={product} imageLoading={imageLoading} />
+                <ShopListItem
+                  key={product.slug}
+                  product={product}
+                  imageLoading={imageLoading}
+                />
               ) : (
                 <ProductCard
                   key={product.slug}

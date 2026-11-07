@@ -1,5 +1,6 @@
 import PageBanner from "@/components/PageBanner";
 import ShopCatalog from "@/components/ShopCatalog";
+import PageTransition from "@/components/PageTransition";
 
 export const metadata = {
   title: "Shop | Green Care",
@@ -9,9 +10,11 @@ export const metadata = {
 
 export default function ShopPage() {
   return (
-    <main>
-      <PageBanner currentPage="Shop">Shop</PageBanner>
-      <ShopCatalog />
-    </main>
+    <PageTransition>
+      <main>
+        <PageBanner currentPage="Shop">Shop</PageBanner>
+        <ShopCatalog />
+      </main>
+    </PageTransition>
   );
 }

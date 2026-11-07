@@ -7,8 +7,7 @@ import ProductReviews from "@/components/ProductReviews";
 import Rating from "@/components/Rating";
 
 const MAX_QUANTITY = 99;
-const metaLabelClass =
-  "font-(family-name:--font-montserrat) text-xs tracking-[0.2em] uppercase";
+const metaLabelClass = "text-sm text-ink/60";
 
 function QuantityStepButton({ label, onClick, path }) {
   return (
@@ -38,7 +37,9 @@ function AddToCartForm({ productName }) {
   const quantityId = useId();
 
   function step(change) {
-    setQuantity(Math.min(MAX_QUANTITY, Math.max(1, (Number(quantity) || 1) + change)));
+    setQuantity(
+      Math.min(MAX_QUANTITY, Math.max(1, (Number(quantity) || 1) + change)),
+    );
   }
 
   return (
@@ -52,7 +53,7 @@ function AddToCartForm({ productName }) {
       <label htmlFor={quantityId} className="sr-only">
         Quantity of {productName}
       </label>
-      <div className="flex h-12 border border-ink/25">
+      <div className="flex h-12 overflow-hidden rounded-md border-[0.5px] border-ink/25">
         <input
           id={quantityId}
           type="text"
@@ -60,19 +61,29 @@ function AddToCartForm({ productName }) {
           value={quantity}
           onChange={(event) => {
             const digits = event.target.value.replace(/\D/g, "");
-            setQuantity(digits === "" ? "" : Math.min(MAX_QUANTITY, Number(digits)));
+            setQuantity(
+              digits === "" ? "" : Math.min(MAX_QUANTITY, Number(digits)),
+            );
           }}
           onBlur={() => setQuantity(Number(quantity) || 1)}
-          className="w-14 bg-transparent text-center text-lg outline-offset-2"
+          className="w-14 bg-transparent text-center font-(family-name:--font-playfair) text-lg outline-offset-2"
         />
-        <div className="flex flex-col divide-y divide-ink/25 border-l border-ink/25">
-          <QuantityStepButton label="Increase quantity" onClick={() => step(1)} path="M12 5v14M5 12h14" />
-          <QuantityStepButton label="Decrease quantity" onClick={() => step(-1)} path="M5 12h14" />
+        <div className="flex flex-col divide-y-[0.5px] divide-ink/25 border-l-[0.5px] border-ink/25">
+          <QuantityStepButton
+            label="Increase quantity"
+            onClick={() => step(1)}
+            path="M12 5v14M5 12h14"
+          />
+          <QuantityStepButton
+            label="Decrease quantity"
+            onClick={() => step(-1)}
+            path="M5 12h14"
+          />
         </div>
       </div>
       <button
         type="submit"
-        className="h-12 bg-brand-green px-10 font-(family-name:--font-montserrat) text-sm font-medium tracking-[0.15em] text-brand-white uppercase transition-colors hover:bg-brand-gold hover:text-brand-dark"
+        className="h-12 flex-1 rounded-md px-10 text-base font-semibold bg-logo-green text-brand-white transition-colors hover:bg-logo-green/85 sm:flex-none"
       >
         Add to cart
       </button>
@@ -87,7 +98,7 @@ function ShareButton({ label, onClick, children }) {
       onClick={onClick}
       aria-label={label}
       title={label}
-      className="transition-colors hover:text-accent"
+      className="text-ink/70 transition-colors hover:text-logo-green dark:hover:text-accent"
     >
       <svg className="size-4" viewBox="0 0 24 24" aria-hidden="true">
         {children}
@@ -119,7 +130,9 @@ function ShareLinks({ productName }) {
       <span className={metaLabelClass}>Share:</span>
       <ShareButton
         label="Share on Facebook"
-        onClick={() => openShareWindow("https://www.facebook.com/sharer/sharer.php?u=")}
+        onClick={() =>
+          openShareWindow("https://www.facebook.com/sharer/sharer.php?u=")
+        }
       >
         <path
           fill="currentColor"
@@ -138,17 +151,31 @@ function ShareLinks({ productName }) {
       <ShareButton
         label="Share by email"
         onClick={() => {
-          const subject = encodeURIComponent(`${productName} from Ye Green Care`);
+          const subject = encodeURIComponent(
+            `${productName} from Ye Green Care`,
+          );
           window.location.href = `mailto:?subject=${subject}&body=${encodeURIComponent(window.location.href)}`;
         }}
       >
-        <g fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <g
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <rect x="3" y="5" width="18" height="14" rx="2" />
           <path d="m3 7 9 6 9-6" />
         </g>
       </ShareButton>
       <ShareButton label="Copy link" onClick={copyLink}>
-        <g fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <g
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3A4.5 4.5 0 0 0 13 4.6l-1 1" />
           <path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1" />
         </g>
@@ -160,18 +187,95 @@ function ShareLinks({ productName }) {
   );
 }
 
+function CopySection({ title, children }) {
+  return (
+    <section className="mt-8 first:mt-0">
+      <h3 className="text-xl font-medium text-ink">{title}</h3>
+      <div className="mt-3">{children}</div>
+    </section>
+  );
+}
+
+// Bold label, then its text, as in the catalogue's "Key Benefits" lists.
+function LabeledList({ items }) {
+  return (
+    <ul className="space-y-2">
+      {items.map(([label, text]) => (
+        <li key={label} className="flex gap-3">
+          <span
+            className="mt-2.5 size-1.5 shrink-0 rounded-full bg-logo-green dark:bg-accent"
+            aria-hidden="true"
+          />
+          <span>
+            <span className="font-semibold text-ink">{label}:</span> {text}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function ProductCopy({ product }) {
+  return (
+    <div>
+      <p>{product.description}</p>
+      <div className="mt-8">
+        {product.benefits && (
+          <CopySection title={product.benefitsTitle ?? "Key Benefits"}>
+            <LabeledList items={product.benefits} />
+          </CopySection>
+        )}
+        {product.keyIngredients && (
+          <CopySection title="Key Ingredients">
+            <LabeledList items={product.keyIngredients} />
+          </CopySection>
+        )}
+        {product.howToUse && (
+          <CopySection title={product.howToUseTitle ?? "How to Use"}>
+            <ol className="list-decimal space-y-2 pl-5 marker:text-ink/50">
+              {product.howToUse.map((step) => (
+                <li key={step} className="pl-1">
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </CopySection>
+        )}
+        {product.caution && (
+          <CopySection title="Caution">
+            <p className="rounded-md border-[0.5px] border-brand-gold/40 bg-brand-gold/8 px-4 py-3 text-base">
+              {product.caution}
+            </p>
+          </CopySection>
+        )}
+        {product.storage && (
+          <CopySection title="Storage">
+            <p>{product.storage}</p>
+          </CopySection>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function DetailsTable({ product }) {
   const rows = [["Size", product.size], ...product.details];
 
   return (
-    <table className="text-left">
+    <table className="w-full text-left">
       <tbody>
         {rows.map(([label, value]) => (
-          <tr key={label}>
-            <th scope="row" className={`${metaLabelClass} py-1 pr-6 font-normal opacity-60`}>
+          <tr
+            key={label}
+            className="border-b-[0.5px] border-ink/10 last:border-0"
+          >
+            <th
+              scope="row"
+              className={`${metaLabelClass} py-2 pr-6 align-top font-normal whitespace-nowrap`}
+            >
               {label}
             </th>
-            <td className="py-1">{value}</td>
+            <td className="py-2">{value}</td>
           </tr>
         ))}
       </tbody>
@@ -192,7 +296,12 @@ export default function ProductSummary({ product }) {
   ];
 
   function handleTabKeyDown(event, index) {
-    const moves = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: tabs.length - 1 };
+    const moves = {
+      ArrowRight: index + 1,
+      ArrowLeft: index - 1,
+      Home: 0,
+      End: tabs.length - 1,
+    };
     if (!(event.key in moves)) return;
 
     event.preventDefault();
@@ -203,12 +312,16 @@ export default function ProductSummary({ product }) {
 
   return (
     <div>
-      {/* Important overrides the serif set on all headings in globals.css. */}
-      <h1 className="font-(family-name:--font-montserrat)! text-3xl leading-tight font-light tracking-[0.08em] uppercase md:text-[2.75rem]">
-        {product.name}
+      <h1 className="text-3xl leading-tight font-medium md:text-[2.75rem]">
+        {product.fullName ?? product.name}
       </h1>
-      <p className="mt-3 text-2xl font-light md:text-3xl">
-        {product.price === undefined ? "Price coming soon" : `$${product.price}`}
+      {product.tagline && (
+        <p className="mt-2 text-base text-ink/60 italic">{product.tagline}</p>
+      )}
+      <p className="mt-3 font-(family-name:--font-playfair) text-2xl md:text-3xl">
+        {product.price === undefined
+          ? "Price coming soon"
+          : `$${product.price}`}
       </p>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -219,26 +332,32 @@ export default function ProductSummary({ product }) {
             setActiveTab("reviews");
             tabRefs.current.reviews.focus();
           }}
-          className="text-base leading-none transition-colors hover:text-accent"
+          className="text-sm leading-none text-ink/60 transition-colors hover:text-logo-green dark:hover:text-accent"
         >
-          ({reviews.length} customer {reviews.length === 1 ? "review" : "reviews"})
+          ({reviews.length} customer{" "}
+          {reviews.length === 1 ? "review" : "reviews"})
         </button>
       </div>
 
-      <p className="mt-8 text-lg leading-relaxed md:mt-10">{product.summary}</p>
+      <p className="mt-8 text-lg leading-relaxed text-ink/75 md:mt-10">
+        {product.summary}
+      </p>
 
-      {product.price !== undefined && <AddToCartForm productName={product.name} />}
+      {product.price !== undefined && (
+        <AddToCartForm productName={product.name} />
+      )}
 
       <div className="mt-8 space-y-2 md:mt-10">
         <p className={metaLabelClass}>
-          Size: <span className="ml-1 font-medium">{product.size}</span>
+          Size:{" "}
+          <span className="ml-1 font-semibold text-ink">{product.size}</span>
         </p>
         {product.category && (
           <p className={metaLabelClass}>
             Category:{" "}
             <Link
               href={`/shop?category=${product.category.slug}`}
-              className="ml-1 font-medium transition-colors hover:text-accent"
+              className="ml-1 font-semibold text-ink transition-colors hover:text-logo-green dark:hover:text-accent"
             >
               {product.category.name}
             </Link>
@@ -248,7 +367,11 @@ export default function ProductSummary({ product }) {
       </div>
 
       <div className="mt-8 md:mt-10">
-        <div role="tablist" aria-label="Product information" className="flex">
+        <div
+          role="tablist"
+          aria-label="Product information"
+          className="flex border-b-[0.5px] border-ink/15"
+        >
           {tabs.map((tab, index) => {
             const isActive = tab.id === activeTab;
 
@@ -266,7 +389,7 @@ export default function ProductSummary({ product }) {
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => setActiveTab(tab.id)}
                 onKeyDown={(event) => handleTabKeyDown(event, index)}
-                className={`-ml-px grow border px-2 py-3 font-(family-name:--font-montserrat) text-xs tracking-wider uppercase transition-colors first:ml-0 sm:grow-0 sm:px-6 sm:text-sm ${isActive ? "relative border-brand-green bg-brand-green text-brand-white" : "border-ink/25 hover:text-accent"}`}
+                className={`-mb-px grow border-b-2 px-2 py-3 text-sm font-semibold transition-colors sm:grow-0 sm:px-6 sm:text-base ${isActive ? "border-logo-green text-logo-green dark:border-accent dark:text-accent" : "border-transparent text-ink/50 hover:text-ink"}`}
               >
                 {tab.label}
               </button>
@@ -279,9 +402,9 @@ export default function ProductSummary({ product }) {
           id={`${baseId}-panel`}
           aria-labelledby={`${baseId}-tab-${activeTab}`}
           tabIndex={0}
-          className="px-1 py-5 text-lg leading-relaxed sm:px-6"
+          className="px-1 py-5 text-lg leading-relaxed text-ink/80 sm:px-6"
         >
-          {activeTab === "description" && <p>{product.description}</p>}
+          {activeTab === "description" && <ProductCopy product={product} />}
           {activeTab === "details" && <DetailsTable product={product} />}
           {/* Stays mounted while hidden, so switching tabs keeps a half-written review. */}
           <div hidden={activeTab !== "reviews"}>
