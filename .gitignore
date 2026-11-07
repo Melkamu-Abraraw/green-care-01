@@ -39,6 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Hero video is too large for GitHub (100 MB file limit); host it outside the repo.
-/public/videos/green new .mp4

@@ -8,11 +8,9 @@ const slideMs = 6000;
 
 const slides = [
   {
-    image: "/videos/ye-green-care-poster.png",
+    image: "/videos/poster_new.png",
     eyebrow: "For Beautiful",
     title: "Hair & Body",
-    // The bottle fills the photo's center, so the text moves to the empty right side.
-    placement: "md:items-end md:pr-[12%]",
   },
   {
     image: "/images/footer_desktop.png",

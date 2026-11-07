@@ -63,14 +63,14 @@ export default function Hero() {
     <section className="hero relative h-svh overflow-hidden bg-brand-dark">
       <video
         className="hero-video absolute inset-0 size-full object-cover"
-        poster="/videos/ye-green-care-poster.png"
+        poster="/videos/poster_new.png"
         autoPlay
         muted
         loop
         playsInline
         aria-hidden="true"
       >
-        <source src="/videos/green%20new%20.mp4" type="video/mp4" />
+        <source src="/videos/green%20new%20%20.mp4" type="video/mp4" />
       </video>
 
       {/* Keeps the white nav and social icons readable on the video's pale frames. */}
