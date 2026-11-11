@@ -25,14 +25,14 @@ function phraseIndexAt(seconds) {
   return index;
 }
 
-// state: "idle" (never shown, hidden), "in" (letters drop in), "out" (letters drop away).
+// state: "idle" (never shown, hidden), "in" (letters fade in), "out" (letters fade away).
 function AnimatedLine({ text, state, className }) {
   const words = text.split(" ");
 
   return (
     <span
       data-state={state}
-      className={`hero-line col-start-1 row-start-1 block overflow-hidden whitespace-nowrap ${className}`}
+      className={`hero-line col-start-1 row-start-1 block min-w-0 whitespace-nowrap ${className}`}
     >
       {words.map((word, wordIndex) => {
         const lettersBefore = words.slice(0, wordIndex).join("").length;
@@ -140,8 +140,8 @@ export default function Hero() {
           </span>
         </h1>
         <p className="sr-only">
-          Coffee bean, orange seed, rue plant, rosemary, green coffee, Re-Black
-          and Complete Green oils, made in Ethiopia.
+          Coffee bean, orange seed, rosemary, green coffee, Re-Black and
+          Complete Green oils, made in Ethiopia.
         </p>
         <Link
           href="/shop"
@@ -158,6 +158,8 @@ export default function Hero() {
             <li key={link.label}>
               <a
                 href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={link.label}
                 className="block transition-colors hover:text-brand-gold"
               >

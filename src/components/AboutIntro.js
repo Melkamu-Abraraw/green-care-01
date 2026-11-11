@@ -46,7 +46,7 @@ export default function AboutIntro() {
           </p>
           <h2
             id="about-intro-title"
-            className="mt-3 text-4xl leading-tight font-bold xl:text-5xl"
+            className="mt-3 text-3xl leading-tight font-bold xl:text-4xl"
           >
             Thoughtful Care From The Ground Up
           </h2>

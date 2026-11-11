@@ -16,7 +16,7 @@ export default function AboutTeam() {
           <p className="font-(family-name:--font-montserrat) text-xs font-semibold tracking-[0.15em] text-accent uppercase">
             Our Team
           </p>
-          <h2 id="about-team-title" className="mt-3 text-4xl leading-tight font-bold xl:text-5xl">
+          <h2 id="about-team-title" className="mt-3 text-3xl leading-tight font-bold xl:text-4xl">
             The Secret To Our Success
           </h2>
           <p className="mt-6 text-lg">

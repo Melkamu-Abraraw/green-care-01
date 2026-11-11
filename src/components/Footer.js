@@ -29,9 +29,9 @@ const linkColumns = [
     id: "footer-navigation",
     title: "Navigation",
     items: [
-      { label: "Search", href: "/search" },
-      { label: "Account", href: "/account" },
-      { label: "Cart", href: "/cart" },
+      { label: "Search", href: "/shop" },
+      // No href: there is no cart page until the Shopify integration lands.
+      { label: "Cart" },
     ],
   },
 ];
@@ -91,13 +91,22 @@ export default function Footer() {
               </h2>
               <ul className="mt-2 space-y-1">
                 {column.items.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="transition-colors hover:text-accent"
-                    >
-                      {item.label}
-                    </Link>
+                  <li key={item.label}>
+                    {item.href ? (
+                      <Link
+                        href={item.href}
+                        className="transition-colors hover:text-accent"
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        className="transition-colors hover:text-accent"
+                      >
+                        {item.label}
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>

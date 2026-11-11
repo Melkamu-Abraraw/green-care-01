@@ -4,8 +4,6 @@ const badges = [
   { top: "100%", main: "PURE", bottom: "Orange seed oil", shape: "hexagon" },
   { top: "Extraction", main: "COLD PRESSED", bottom: "Orange seed oil", shape: "octagon" },
   { top: "Ingredients", main: "NON GMO", bottom: "Orange seed oil", shape: "circle" },
-  { top: "Made in", main: "ETHIOPIA", bottom: "Coffee & black seed", shape: "hexagon" },
-  { top: "Bottled in", main: "CANADA", bottom: "Rosemary oil", shape: "octagon" },
 ];
 
 // pathLength="1" lets CSS draw the outline in, whatever the shape's real length.
@@ -121,11 +119,11 @@ export default function Standards() {
               </g>
             </g>
           </svg>
-          <h2 id="awards-title" className="relative text-4xl leading-tight font-bold xl:text-5xl">
+          <h2 id="awards-title" className="relative text-2xl leading-tight font-bold xl:text-3xl">
             Awards
           </h2>
         </div>
-        <ul className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-3 md:mt-14 lg:grid-cols-6">
+        <ul className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-8 md:mt-14 lg:grid-cols-4">
           {badges.map((badge, index) => (
             <li key={badge.main} data-reveal style={{ "--reveal-order": index }} className="award-item">
               <Badge {...badge} />

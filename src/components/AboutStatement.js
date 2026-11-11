@@ -33,7 +33,7 @@ export default function AboutStatement() {
         </h2>
 
         {/* Each word fills in as the paragraph scrolls through the screen; see .about-statement-word. */}
-        <p className="mt-8 font-(family-name:--font-playfair) text-3xl leading-snug md:mt-10 md:text-5xl md:leading-tight">
+        <p className="mt-8 font-(family-name:--font-playfair) text-xl leading-snug md:mt-10 md:text-3xl">
           {words.map(({ word, accent }, index) => (
             <span
               key={index}

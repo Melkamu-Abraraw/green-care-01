@@ -4,7 +4,7 @@ import { Dancing_Script, Roboto_Condensed } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { getCartCount, subscribeToCart } from "@/components/cartStore";
+import { clearCart, getCartCount, subscribeToCart } from "@/components/cartStore";
 import { menuItems } from "@/components/navLinks";
 import {
   getTheme,
@@ -77,9 +77,10 @@ function ThemeToggle() {
   );
 }
 
-function CartLink({ count }) {
+// A button, not a link: there is no cart page until the Shopify integration lands. Until then, a click empties the cart.
+function CartButton({ count }) {
   return (
-    <Link href="/cart" aria-label={`Cart, ${count} items`} className={iconLinkClass}>
+    <button type="button" onClick={clearCart} aria-label={`Cart, ${count} items`} className={iconLinkClass}>
       <Icon>
         <path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 7H6" />
         <circle cx="10" cy="20.5" r="1.25" />
@@ -88,7 +89,7 @@ function CartLink({ count }) {
       <span className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-brand-gold text-xs font-medium text-brand-dark">
         {count}
       </span>
-    </Link>
+    </button>
   );
 }
 
@@ -96,12 +97,6 @@ const searchIcon = (
   <>
     <circle cx="11" cy="11" r="7" />
     <path d="m20.5 20.5-4.5-4.5" />
-  </>
-);
-const accountIcon = (
-  <>
-    <circle cx="12" cy="8" r="4" />
-    <path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" />
   </>
 );
 
@@ -137,7 +132,7 @@ export default function Navbar() {
       data-scrolled={isScrolled}
     >
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 md:px-8">
-        {/* Phones: the logo sits left; theme toggle, cart and menu button sit right. Search and account live in the menu. */}
+        {/* Phones: the logo sits left; theme toggle, cart and menu button sit right. Search lives in the menu. */}
         <div className="col-start-3 row-start-1 flex flex-row-reverse items-center gap-2.5 justify-self-end md:hidden">
           <button
             ref={menuButtonRef}
@@ -152,7 +147,7 @@ export default function Navbar() {
               <path d="M4 7h16M4 12h16M4 17h16" />
             </Icon>
           </button>
-          <CartLink count={cartCount} />
+          <CartButton count={cartCount} />
           <ThemeToggle />
         </div>
 
@@ -194,11 +189,10 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          {/* Phones only: search and account move here from the header. */}
+          {/* Phones only: search moves here from the header. It opens the shop, which has the product search. */}
           <ul className="mx-6 flex flex-col border-t border-brand-white/15 py-4 md:hidden">
             {[
-              { href: "/search", label: "Search", icon: searchIcon },
-              { href: "/account", label: "Account", icon: accountIcon },
+              { href: "/shop", label: "Search", icon: searchIcon },
             ].map(({ href, label, icon }) => (
               <li key={href}>
                 <Link
@@ -228,10 +222,10 @@ export default function Navbar() {
         <Link
           href="/"
           aria-label="Ye Green Care home"
-          className={`col-start-1 row-start-1 flex flex-col items-center justify-self-start md:col-start-2 md:justify-self-auto justify-center rounded-b-full text-center text-brand-white transition-all duration-300 motion-reduce:transition-none ${isScrolled ? "h-16 w-20 md:h-20 md:w-24" : "h-28 w-24 gap-1 bg-brand-dark pb-3 md:h-34 md:w-28 md:gap-2 md:pb-4"}`}
+          className={`col-start-1 row-start-1 flex flex-col items-center justify-self-start md:col-start-2 md:justify-self-auto justify-center rounded-b-full text-center text-brand-white transition-all duration-300 motion-reduce:transition-none ${isScrolled ? "h-16 w-18 md:h-20 md:w-24" : "h-20 w-18 gap-0.5 bg-brand-dark pb-2 md:h-26 md:w-24 md:gap-1 md:pb-3"}`}
         >
           <span
-            className={`${logoFont.className} text-lg leading-none md:text-xl ${isScrolled ? "hidden" : ""}`}
+            className={`${logoFont.className} text-sm leading-none md:text-lg ${isScrolled ? "hidden" : ""}`}
           >
             Green Care
           </span>
@@ -240,21 +234,18 @@ export default function Navbar() {
             alt=""
             width={640}
             height={505}
-            sizes="(min-width: 768px) 72px, 56px"
+            sizes="(min-width: 768px) 56px, 44px"
             loading="eager"
-            className={`h-auto transition-all duration-300 motion-reduce:transition-none ${isScrolled ? "w-11 md:w-14" : "w-14 md:w-18"}`}
+            className={`h-auto transition-all duration-300 motion-reduce:transition-none w-11 md:w-14`}
           />
         </Link>
 
         <div className="col-start-3 row-start-1 hidden items-center justify-self-end gap-4 md:flex">
           <ThemeToggle />
-          <Link href="/search" aria-label="Search" className={iconLinkClass}>
+          <Link href="/shop" aria-label="Search" className={iconLinkClass}>
             <Icon>{searchIcon}</Icon>
           </Link>
-          <Link href="/account" aria-label="Account" className={iconLinkClass}>
-            <Icon>{accountIcon}</Icon>
-          </Link>
-          <CartLink count={cartCount} />
+          <CartButton count={cartCount} />
         </div>
       </div>
     </header>

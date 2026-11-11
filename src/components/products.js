@@ -12,6 +12,10 @@
 // `fullName` is the catalogue title, `tagline` the line under it, `summary` a one-line pitch for cards
 // and search results, `description` the full paragraph. `benefits` and `howToUse` fill the product
 // page's Description tab, `details` its Details tab, and `ingredients` the home page ingredients section.
+//
+// Roasted Coffee, Green Coffee, Rosemary and Black Seed use the newer Shopify product PDFs on their product
+// pages. `description` separates paragraphs with a blank line, `shortDescription` replaces `summary` on the
+// product page only, and `highlight`, `sections`, `cautionTitle` and `closing` add the PDFs' extra copy.
 
 const photo = (folder, file) => `/images/${folder}/${file}`;
 const photos = (folder, files) => files.map((file) => photo(folder, file));
@@ -23,7 +27,7 @@ const skinCare = { name: "Skin Care", slug: "skin-care" };
 export const products = [
   {
     name: "Roasted Coffee",
-    fullName: "Ethiopian Coffee Beans Oil",
+    fullName: "100% Pure Ethiopian Roasted Coffee Bean Oil",
     slug: "roasted-coffee",
     front: photo("Ethiopian coffee beans oils", "rosted _03_front_nobg.png"),
     gallery: photos("Ethiopian coffee beans oils", [
@@ -39,43 +43,66 @@ export const products = [
     width: 192,
     height: 635,
     category: coffeeBeanOil,
-    tagline: "Pure Ethiopian Coffee Oil | Natural Hair & Body Care",
+    tagline: "One Ingredient. Nothing Added. Nothing Diluted.",
     summary:
       "100% organic Ethiopian coffee beans oil, rich in naturally occurring antioxidants.",
+    shortDescription:
+      "Treat your skin to a rich coffee-inspired ritual. Our single-ingredient roasted coffee bean oil helps soften and moisturize skin, while bringing the unmistakable aroma of Ethiopian roasted coffee to your daily routine. Nothing added. Nothing diluted.",
     description:
-      "Discover the richness of Ethiopian coffee in every drop. Our 100% Organic Ethiopian Coffee Beans Oil is made in Ethiopia using coffee beans and a unique oil extraction process. Rich in naturally occurring antioxidants, this versatile oil is designed to complement your daily skin and body care routine, helping your skin feel soft, nourished, and moisturized.",
+      "A rich Ethiopian coffee ritual for soft, nourished, radiant-looking skin.\n\nExperience the distinctive aroma of roasted Ethiopian coffee in a pure, single-ingredient beauty oil. No added preservatives, fragrance, fillers, or carrier oils.",
+    highlight: "30 mL | For external use only",
     ingredients: "100% organic Ethiopian coffee beans, made in Ethiopia.",
+    benefitsTitle: "Why Your Skin Will Love It",
     benefits: [
-      ["Moisturizing Care", "Helps soften skin and maintain moisture."],
+      ["Nourishing Moisture", "Helps soften and moisturize dry or rough-feeling skin."],
       [
-        "Antioxidant-Rich",
-        "Contains naturally occurring coffee-derived antioxidants.",
+        "Healthy-Looking Radiance",
+        "Leaves skin feeling supple, smooth, and cared for.",
       ],
       [
-        "Multipurpose Beauty Oil",
-        "Suitable for use in body oils, lotions, scrubs, and other cosmetic formulations.",
+        "Authentic Roasted Coffee Aroma",
+        "Enjoy its naturally characteristic coffee scent, without added perfume.",
       ],
       [
-        "Natural Coffee Aroma",
-        "Adds a distinctive coffee scent to your self-care routine.",
+        "Versatile Care",
+        "Suitable for facial and body moisturizing and sparing use on dry hair ends.",
       ],
-      ["Made in Ethiopia", "Celebrates the heritage of Ethiopian coffee."],
+    ],
+    sections: [
+      {
+        title: "The Difference Is in the Oil",
+        text: "Made from Ethiopian roasted coffee beans—not coffee-infused carrier oil. One ingredient, with no added preservatives, fragrance, fillers, or dilution.",
+      },
+      {
+        title: "A Little Coffee. A Beautiful Daily Ritual.",
+        text: "Let the warmth of Ethiopian roasted coffee become part of your everyday self-care. A few drops bring a comforting, naturally coffee-scented touch to your skincare routine.",
+      },
+      {
+        title: "Why Choose Green Care Naturals?",
+        text: "100% pure roasted coffee bean oil. Ethiopian origin. No added preservatives. No added fragrance. No dilution. Just the natural character of roasted coffee beans.",
+      },
     ],
     howToUse: [
-      "Apply a few drops to clean skin and gently massage until absorbed. You can also blend a small amount into your favorite body lotion or body oil.",
+      ["Face", "Apply 2–4 drops to clean, slightly damp skin and gently massage. Begin with a small amount."],
+      ["Body", "Massage a few drops into dry areas as needed."],
+      ["Hair", "Smooth a tiny amount over dry hair ends. Avoid over-applying."],
+      ["With moisturizer", "Blend 1–2 drops into a single application just before use."],
     ],
     caution:
-      "For external use only. Patch test before use and avoid contact with eyes.",
+      "For external use only. Patch test before first use. Avoid contact with eyes. Discontinue use if irritation occurs. Keep out of reach of children. Store away from heat and direct sunlight.",
+    closing: "Green Care Naturals — Purity in Every Drop.",
     details: [
-      ["Brand", "Ye Green Care"],
+      ["Brand", "Green Care Naturals"],
+      ["Ingredient", "Roasted Coffee Bean Oil"],
       ["Origin", "Ethiopia"],
+      ["Formulation", "Single ingredient; no added preservatives, fragrance, fillers or dilution"],
       ["Form", "Liquid oil"],
       ["Packaging", "Black glass dropper bottle"],
     ],
   },
   {
     name: "Green Coffee",
-    fullName: "Green Coffee Beans Oil",
+    fullName: "100% Pure Ethiopian Green Coffee Bean Oil",
     slug: "green-coffee",
     front: photo("Green Coffee Beans Oil", "green coffee_front_2.jpg"),
     gallery: photos("Green Coffee Beans Oil", [
@@ -91,51 +118,61 @@ export const products = [
     width: 159,
     height: 533,
     category: coffeeBeanOil,
-    tagline: "Natural Skin & Hair Care | Antioxidant-Rich | Made in Ethiopia",
+    tagline: "One Ingredient. Nothing Added. Nothing Diluted.",
     summary:
       "A multipurpose skin and hair oil made from Ethiopian green coffee beans.",
+    shortDescription:
+      "Pure Ethiopian coffee beauty, one drop at a time. Meet 100% pure Green Coffee Bean Oil - a single-ingredient facial beauty oil with no additives, no preservatives, and no dilution. Helps soften and moisturize dry skin for a smoother, radiant-looking complexion. 30 mL.",
     description:
-      "Discover the natural goodness of Ethiopian Green Coffee Beans Oil. Made from green coffee beans, this versatile beauty oil is designed to nourish your skin, support moisture retention, and help maintain a healthy-looking complexion. Naturally rich in coffee-derived antioxidants, it makes a wonderful addition to your daily skincare and haircare routine. Whether applied directly to the skin or added to your favorite haircare products, Green Coffee Beans Oil offers a simple way to enjoy the benefits of Ethiopian coffee.",
+      "Discover the beauty hidden inside a little green coffee bean.\n\nFrom Ethiopia’s coffee-growing heritage comes a beautifully simple skincare ritual. Green Care Naturals Green Coffee Bean Oil is made from a single ingredient: pure green coffee bean oil, with no additives, no preservatives, and no dilution.\n\nJust a few drops help leave dry skin feeling nourished, soft and supple, with a naturally radiant-looking finish.",
+    highlight: "100% pure • Single ingredient • No added preservatives • No dilution",
     ingredients: "Green coffee bean oil, made in Ethiopia.",
+    benefitsTitle: "Why Your Skin Will Love It",
     benefits: [
-      ["Skin Nourishment", "Helps moisturize and soften dry skin."],
+      ["Nourishing moisture", "Helps moisturize and soften dry skin for a comfortable, conditioned feel."],
       [
-        "Antioxidant Care",
-        "Contains naturally occurring antioxidants that help support skin care.",
+        "Naturally occurring coffee compounds",
+        "Contains coffee-derived compounds, including antioxidants, as part of its natural composition.",
       ],
       [
-        "Healthy-Looking Complexion",
-        "Helps maintain smooth, supple, radiant-looking skin.",
-      ],
-      ["Hair Conditioning", "Helps soften hair and improve manageability."],
-      [
-        "Scalp Care",
-        "Can be incorporated into a regular scalp massage routine.",
+        "Healthy-looking radiance",
+        "Helps dry, dull-looking skin appear smoother, fresher and more supple.",
       ],
       [
-        "Multipurpose Oil",
-        "Suitable for facial care, body care, and hair conditioning.",
+        "Simple, versatile care",
+        "Ideal for a facial-care ritual and suitable for conditioning dry areas of the body and hair.",
       ],
+    ],
+    sections: [
+      {
+        title: "The Green Care Naturals Difference",
+        text: "Pure coffee bean oil - not a coffee-infused carrier oil. Made from Ethiopian green coffee beans with no added fragrance, preservatives, fillers, or other oils. The ingredient story is as straightforward as the bottle: one ingredient, carefully prepared.",
+      },
+      {
+        title: "A Little Bean. A Beautiful Daily Ritual.",
+        text: "Thoughtful skincare does not need a long ingredient list. Discover how pure Ethiopian green coffee bean oil can become a simple, enjoyable part of your everyday routine.",
+      },
     ],
     howToUse: [
-      "For skin: Apply a few drops to clean skin on your face or body. Gently massage until absorbed. Use as part of your daily skincare routine.",
-      "For hair: Add a small amount to your shampoo or conditioner, or use as a leave-in treatment by applying a little oil to damp hair. Distribute evenly, focusing on dry areas.",
-      "With your moisturizer: Mix a few drops with your daily moisturizer for additional moisturizing care.",
+      ["Face", "After cleansing, gently massage 3–5 drops onto the face and neck. Use morning or evening; apply sunscreen as the final step of your morning routine."],
+      ["Body", "Massage a small amount onto dry areas as needed."],
+      ["Hair", "Smooth a small amount over damp hair or dry ends to help condition and improve manageability."],
+      ["Moisturizer", "Blend 1–2 drops into a single application of your moisturizer immediately before use."],
     ],
     caution:
-      "For external use only. Perform a patch test before first use. Avoid direct contact with eyes. Discontinue use if irritation occurs. Keep out of reach of children.",
+      "For external use only. Patch test before first use. Avoid contact with eyes. Discontinue use if irritation occurs. Keep out of reach of children. Store in a cool, dry place away from direct sunlight.",
     details: [
-      ["Brand", "Ye Green Care"],
-      ["Main ingredient", "Green Coffee Bean Oil"],
-      ["Origin", "Made in Ethiopia"],
-      ["Product type", "Multipurpose Skin & Hair Oil"],
+      ["Brand", "Green Care Naturals"],
+      ["Ingredient", "Green Coffee Bean Oil"],
+      ["Origin", "Ethiopia"],
+      ["Formulation", "Single ingredient; no added preservatives, fragrance, fillers or dilution"],
       ["Non-GMO", "As stated on the product label"],
       ["Packaging", "Black glass bottle with dropper"],
     ],
   },
   {
     name: "Rosemary",
-    fullName: "Rosemary Oil",
+    fullName: "8-Month Slow-Crafted Rosemary Hair Oil",
     slug: "rosemary",
     front: photo("rosemary", "rosemary_front.jpg"),
     gallery: photos("rosemary", [
@@ -152,38 +189,53 @@ export const products = [
     height: 1038,
     featured: true,
     category: hairCare,
-    tagline: "100% Pure & Natural | Hair & Scalp Care | Bottled in Canada",
+    tagline: "Eight Months of Patience. A Beautiful Hair Ritual.",
     summary:
       "A hair and scalp oil to nourish the scalp and leave hair soft and smooth.",
+    shortDescription:
+      "Eight months in the making. A beautiful ritual in every drop. Discover Green Care Naturals Rosemary Hair Oil, an eight-month slow-crafted botanical infusion designed to soften hair, enhance shine, and bring a little extra care to your scalp-massage routine. Not an essential oil — a versatile leave-in hair treatment.",
     description:
-      "Give your hair the natural care it deserves with Green Care Naturals Rosemary Oil. Made for regular hair and scalp care, this versatile oil helps nourish the scalp, moisturize the hair, and leave it feeling soft, smooth, and well-conditioned. Perfect for incorporating into your weekly hair care routine, whether you prefer a pre-shower scalp massage or a leave-in treatment.",
+      "Not an essential oil. A leave-in botanical hair treatment created for a thoughtful, nourishing haircare ritual.\n\nSome things are worth waiting for. Our rosemary hair oil is prepared through an extended eight-month rosemary infusion process — a slow, deliberate approach that reflects our commitment to botanical care.\n\nMade to complement your everyday routine, this leave-in oil helps soften dry-feeling strands, add a natural-looking sheen, and make hair easier to manage.",
+    highlight: "Slow-crafted with care. Made for the hair you love.",
     ingredients: "Rosemary oil (Huile de Romarin). Not an essential oil.",
+    benefitsTitle: "Why Your Hair Will Love It",
     benefits: [
-      ["Scalp Nourishment", "Helps moisturize and condition the scalp."],
-      ["Hair Moisture", "Helps soften dry hair and improve manageability."],
+      ["Softness & manageability", "Helps soften dry hair and make strands easier to comb and style."],
+      ["Beautiful-looking shine", "Adds a polished, healthy-looking sheen to dull or dry ends."],
       [
-        "Hair Care Routine",
-        "Ideal for regular scalp massages and conditioning.",
+        "Scalp massage ritual",
+        "An easy way to incorporate a gentle, relaxing scalp massage into your routine.",
       ],
       [
-        "Versatile Application",
-        "Can be applied before showering or left in the hair.",
+        "Leave-in versatility",
+        "Use sparingly on hair ends or as a pre-wash scalp and hair treatment.",
       ],
-      ["100% Pure & Natural", "As stated on the product label."],
+    ],
+    sections: [
+      {
+        title: "A Little Rosemary. A Lot of Care.",
+        subtitle: "What Makes Our Rosemary Oil Different",
+        items: [
+          ["Eight-month preparation", "A patiently prepared rosemary infusion, rather than a quickly blended rosemary-scented product."],
+          ["Not a concentrated essential oil", "This is a rosemary hair oil intended for use as a leave-in treatment, not a pure rosemary essential oil."],
+          ["Everyday botanical care", "Designed to fit naturally into a simple hair and scalp routine."],
+        ],
+      },
     ],
     howToUse: [
-      "Apply an appropriate amount of rosemary oil directly to your scalp.",
-      "Gently massage with your fingertips to distribute the oil.",
-      "Use 3–4 times per week.",
-      "Apply before showering or leave in your hair as part of your regular hair care routine.",
+      ["Leave-in care", "Start with a few drops in your palms. Smooth through damp or dry hair, focusing on mid-lengths and ends. Use only as much as your hair needs."],
+      ["Scalp massage", "Apply a small amount to the scalp and massage gently with fingertips. If desired, wash out after your preferred treatment time."],
+      ["Styling finish", "Apply a tiny amount to dry ends to help tame the look of frizz and add shine."],
     ],
+    cautionTitle: "Important Product Information",
     caution:
-      "For external use only. Avoid contact with eyes. Keep out of reach of children. Discontinue use if irritation occurs. Patch test before first use.",
+      "For external use only. Patch test before first use. Avoid contact with eyes. Discontinue use if irritation occurs. Keep out of reach of children. Store away from direct sunlight and excessive heat.",
+    closing: "Green Care Naturals — Purity in Every Drop.",
     details: [
       ["Brand", "Green Care Naturals"],
-      ["Product name", "Rosemary Oil (Huile de Romarin)"],
-      ["Product type", "Hair & Scalp Oil"],
-      ["Purity", "100% Pure & Natural (label claim)"],
+      ["Product name", "Rosemary Hair Oil (Huile de Romarin)"],
+      ["Product type", "Leave-in botanical hair treatment"],
+      ["Preparation", "Eight-month rosemary infusion"],
       ["Packaging", "Dark bottle with precision applicator nozzle"],
       ["Bottled in", "Canada"],
       ["Important", "This product is not an essential oil."],
@@ -237,7 +289,7 @@ export const products = [
   },
   {
     name: "Black Seed",
-    fullName: "Ethiopian Black Seed Oil",
+    fullName: "100% Pure Washed & Cold-Pressed Black Seed Oil",
     slug: "black-seed",
     front: photo("Black Seed Oil Botanical ", "balck seed_front.jpg"),
     gallery: photos("Black Seed Oil Botanical ", [
@@ -253,101 +305,52 @@ export const products = [
     width: 265,
     height: 881,
     category: skinCare,
-    tagline: "Organic Black Seed Oil | Non-GMO | Made in Ethiopia",
+    tagline: "Preserving Nature’s Goodness for Maximum Natural Care",
     summary: "Organic black seed (Nigella sativa) oil, made in Ethiopia.",
+    shortDescription:
+      "Pure black seed oil. Nothing added. Nothing diluted. Carefully washed and cold-pressed from Nigella sativa seeds, our 100% pure oil helps nourish dry skin, condition hair, and elevate your daily self-care ritual.",
     description:
-      "Discover the natural goodness of Ethiopian Black Seed Oil, made from black seeds (Nigella sativa), also known as black cumin seeds. Black seed oil has a long history of traditional use and is valued for its naturally occurring plant compounds, including thymoquinone. Made in Ethiopia, this 30 mL oil is a convenient addition to your daily wellness routine.",
+      "One seed. One ingredient. Pure natural care.\n\nCarefully washed and cold-pressed from Nigella sativa seeds, our undiluted black seed oil brings the richness of nature to your skin and hair care routine.",
+    highlight: "No added fragrance. No fillers. No blending with other oils.",
     ingredients: "Organic black seed (Nigella sativa), made in Ethiopia.",
-    benefitsTitle: "Key Features",
+    benefitsTitle: "Why You’ll Love It",
     benefits: [
-      [
-        "Organic Black Seed",
-        "Made from black seeds, as stated on the product label.",
-      ],
-      [
-        "Naturally Occurring Compounds",
-        "Contains plant compounds such as thymoquinone.",
-      ],
-      [
-        "Traditional Heritage",
-        "Black seed oil has been used in traditional wellness practices for generations.",
-      ],
-      ["Non-GMO", "As stated on the product packaging."],
-      [
-        "Made in Ethiopia",
-        "Sourced from Ethiopia's rich agricultural heritage.",
-      ],
-      ["Convenient Dropper Bottle", "Designed for controlled dispensing."],
+      ["Skin nourishment", "Helps moisturize and soften dry-feeling skin for a smooth, supple feel."],
+      ["Hair conditioning", "Helps soften dry hair and improve manageability."],
+      ["Scalp massage", "Complements a gentle scalp-care ritual."],
+      ["Pure by design", "Washed seeds, cold-pressed extraction, and no added carrier oils."],
     ],
-    howToUseTitle: "Directions on Product Label",
+    sections: [
+      {
+        title: "What Makes Our Oil Different",
+        text: "We put the seed first. Careful washing prepares the seeds for pressing, while cold extraction avoids the high heat used in some production methods. The result is a naturally aromatic, undiluted oil with the distinctive character of black seed.",
+      },
+      {
+        title: "A Simple, Natural Beauty Ritual",
+        text: "Discover a versatile oil that fits beautifully into your daily skin and hair care routine.",
+      },
+      {
+        title: "Your Daily Ritual, Naturally",
+        text: "Make room for a little simplicity. Experience the rich feel of pure black seed oil and discover a nourishing addition to your everyday beauty routine.",
+      },
+    ],
     howToUse: [
-      "Adults: Take 1 teaspoon (5 mL) daily with a meal.",
-      "Children over 5 years: The label states ½ teaspoon (2.5 mL) daily with a meal. Consult a pediatric healthcare professional before giving black seed oil to children.",
+      ["For skin", "After cleansing, apply 1–2 drops to a small area of slightly damp skin. Massage gently and increase sparingly as desired. Avoid the eye area."],
+      ["For hair", "Rub a drop or two between your palms and smooth over dry ends or damp hair. Start with a small amount."],
+      ["For scalp", "Gently massage a few drops into the scalp as part of your routine. Wash out if preferred."],
     ],
     caution:
-      "Consult a healthcare provider before using black seed oil as a dietary supplement, particularly if you are pregnant, breastfeeding, taking medications, or have an existing medical condition. Keep out of reach of children. Store according to the manufacturer's instructions.",
+      "For external use only. Patch test before first use. Avoid contact with eyes and broken or irritated skin. Discontinue use if irritation occurs. Keep out of reach of children. Store tightly closed away from heat and direct sunlight.",
+    closing: "Green Care Naturals — Purity in Every Drop.",
     details: [
       ["Brand", "Green Care Naturals"],
-      ["Ingredient", "Organic Black Seed (Nigella sativa)"],
+      ["Ingredient", "Black Seed Oil (Nigella sativa)"],
+      ["Extraction", "Washed seeds, cold-pressed"],
+      ["Formulation", "No added fragrance, fillers or carrier oils"],
       ["Origin", "Made in Ethiopia"],
       ["Non-GMO", "Label claim"],
       ["Packaging", "Black dropper bottle"],
       ["Shelf life", "24 months after opening, as indicated on the label"],
-    ],
-  },
-  {
-    name: "Rue Plant",
-    fullName: "Rue Plant Oil",
-    slug: "rue-plant",
-    front: photo(
-      "rue_plant_oil_flatlay",
-      "Rue Plant Oil Premium Bottle_front.png",
-    ),
-    gallery: photos("rue_plant_oil_flatlay", [
-      "Rue Plant Oil Botanical Still Life-2.png",
-      "rue_plant_oil_botanical.png",
-      "rue_plant_oil_flatlay.png",
-    ]),
-    model: "/products/06_Rue_Plant_Oil/Rue_Plant_Oil.glb",
-    size: "100 mL",
-    color: "#7f9a4a",
-    category: skinCare,
-    tagline: "Natural Botanical Body Oil | Soothe • Nourish • Care",
-    summary:
-      "A botanical body oil made from Ruta graveolens (rue) plant seeds.",
-    description:
-      "Discover Ye-Green Care Naturals Rue Plant Oil, a botanical oil made from Ruta graveolens, commonly known as rue. Made in Ethiopia, this plant-based oil is designed for external body care. It can be incorporated into a gentle massage routine to help condition the skin and leave it feeling soft and moisturized. Traditionally associated with herbal wellness practices, rue is a distinctive botanical ingredient valued for its long history of use.",
-    ingredients: "Rue plant seeds (Ruta graveolens), with no additives.",
-    benefits: [
-      ["Botanical Skin Care", "Made with rue plant seed oil."],
-      ["Skin Conditioning", "Helps soften and moisturize the skin."],
-      [
-        "Massage Care",
-        "Suitable for gentle topical massage when used as directed.",
-      ],
-      ["Natural Botanical Ingredient", "Features Ruta graveolens plant seeds."],
-      ["No Additives", "As stated on the product label."],
-      ["Made in Ethiopia", "Inspired by Ethiopia's botanical traditions."],
-    ],
-    howToUse: [
-      "Apply a small amount to the intended area of skin.",
-      "Gently massage to distribute the oil.",
-      "The product label recommends application twice daily.",
-      "Wash your hands after application and avoid contact with eyes.",
-    ],
-    caution:
-      "For external use only. Avoid contact with eyes. Keep out of reach of children. Do not use during pregnancy or while taking blood-thinning medication. Rue oil may cause skin irritation and increased sensitivity to sunlight. Consult a healthcare professional before use, especially if you have a medical condition or take medication. Discontinue use if irritation occurs.",
-    storage: "Store in a cool, dry place away from direct sunlight.",
-    details: [
-      ["Brand", "Ye-Green Care Naturals"],
-      ["Botanical name", "Ruta graveolens"],
-      ["Ingredient", "Rue Plant Seeds"],
-      ["Product type", "Topical Botanical Body Oil"],
-      ["Purity", "100% Pure (label claim)"],
-      ["Additives", "No Additives (label claim)"],
-      ["Non-GMO", "As stated on the packaging"],
-      ["Origin", "Made in Ethiopia"],
-      ["Packaging", "Amber bottle with precision applicator nozzle"],
     ],
   },
   {

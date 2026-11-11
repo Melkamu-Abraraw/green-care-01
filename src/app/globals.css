@@ -128,34 +128,40 @@ body:has(.hero, .page-banner) .site-header[data-scrolled="true"] {
   font-family: var(--font-montserrat), sans-serif;
 }
 
-/* Hero.js switches each line's data-state as the video moves to a new product: letters drop in one by
-   one, then drop away when the next product appears. --i is the letter's position in its line. */
+/* Hero.js switches each line's data-state as the video moves to a new product: letters fade in one by
+   one, then fade away when the next product appears. --i is the letter's position in its line.
+   Lines don't clip, so letters are always drawn whole; the old phrase clears before the new one arrives. */
 .hero-char {
   display: inline-block;
-  transform: translateY(-100%) rotate(35deg);
+  opacity: 0;
+  transform: translateY(-35%);
 }
 .hero-line[data-state="in"] .hero-char {
   animation: hero-char-in 900ms cubic-bezier(0.83, 0, 0.17, 1) both;
   animation-delay: calc(400ms + var(--i) * 45ms);
 }
 .hero-line[data-state="out"] .hero-char {
-  animation: hero-char-out 600ms cubic-bezier(0.83, 0, 0.17, 1) both;
-  animation-delay: calc(var(--i) * 20ms);
+  animation: hero-char-out 400ms cubic-bezier(0.83, 0, 0.17, 1) both;
+  animation-delay: calc(var(--i) * 15ms);
 }
 @keyframes hero-char-in {
   from {
-    transform: translateY(-100%) rotate(35deg);
+    opacity: 0;
+    transform: translateY(-35%);
   }
   to {
+    opacity: 1;
     transform: none;
   }
 }
 @keyframes hero-char-out {
   from {
+    opacity: 1;
     transform: none;
   }
   to {
-    transform: translateY(100%) rotate(-35deg);
+    opacity: 0;
+    transform: translateY(35%);
   }
 }
 
@@ -316,6 +322,7 @@ body:has(.hero, .page-banner) .site-header[data-scrolled="true"] {
   }
   .hero-line .hero-char {
     animation: none;
+    opacity: 1;
     transform: none;
   }
   .hero-line:not([data-state="in"]) {

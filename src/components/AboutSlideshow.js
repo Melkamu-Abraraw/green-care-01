@@ -75,10 +75,10 @@ export default function AboutSlideshow() {
             <Image src={image} alt="" fill sizes="100vw" className="-z-10 object-cover" />
             {/* Keeps the white text readable on the pale and busy photos. */}
             <div className="absolute inset-0 -z-10 bg-black/60" />
-            <p className="text-xl font-extralight md:text-4xl">
+            <p className="text-lg font-extralight md:text-2xl">
               {eyebrow}
             </p>
-            <h2 className="mt-2 text-4xl font-bold md:mt-3 md:text-6xl">
+            <h2 className="mt-2 text-3xl font-bold md:mt-3 md:text-5xl">
               {title}
             </h2>
             <Link

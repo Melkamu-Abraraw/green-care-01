@@ -218,13 +218,29 @@ function LabeledList({ items }) {
 function ProductCopy({ product }) {
   return (
     <div>
-      <p>{product.description}</p>
+      <div className="space-y-4">
+        {product.description.split("\n\n").map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+        {product.highlight && (
+          <p className="font-semibold text-ink">{product.highlight}</p>
+        )}
+      </div>
       <div className="mt-8">
         {product.benefits && (
           <CopySection title={product.benefitsTitle ?? "Key Benefits"}>
             <LabeledList items={product.benefits} />
           </CopySection>
         )}
+        {product.sections?.map((section) => (
+          <CopySection key={section.title} title={section.title}>
+            {section.subtitle && (
+              <p className="mb-3 font-semibold text-ink">{section.subtitle}</p>
+            )}
+            {section.text && <p>{section.text}</p>}
+            {section.items && <LabeledList items={section.items} />}
+          </CopySection>
+        ))}
         {product.keyIngredients && (
           <CopySection title="Key Ingredients">
             <LabeledList items={product.keyIngredients} />
@@ -232,17 +248,22 @@ function ProductCopy({ product }) {
         )}
         {product.howToUse && (
           <CopySection title={product.howToUseTitle ?? "How to Use"}>
-            <ol className="list-decimal space-y-2 pl-5 marker:text-ink/50">
-              {product.howToUse.map((step) => (
-                <li key={step} className="pl-1">
-                  {step}
-                </li>
-              ))}
-            </ol>
+            {/* [label, text] pairs are separate uses (face, hair); plain strings are ordered steps. */}
+            {Array.isArray(product.howToUse[0]) ? (
+              <LabeledList items={product.howToUse} />
+            ) : (
+              <ol className="list-decimal space-y-2 pl-5 marker:text-ink/50">
+                {product.howToUse.map((step) => (
+                  <li key={step} className="pl-1">
+                    {step}
+                  </li>
+                ))}
+              </ol>
+            )}
           </CopySection>
         )}
         {product.caution && (
-          <CopySection title="Caution">
+          <CopySection title={product.cautionTitle ?? "Caution"}>
             <p className="rounded-md border-[0.5px] border-brand-gold/40 bg-brand-gold/8 px-4 py-3 text-base">
               {product.caution}
             </p>
@@ -252,6 +273,11 @@ function ProductCopy({ product }) {
           <CopySection title="Storage">
             <p>{product.storage}</p>
           </CopySection>
+        )}
+        {product.closing && (
+          <p className="mt-8 font-(family-name:--font-playfair) text-ink italic">
+            {product.closing}
+          </p>
         )}
       </div>
     </div>
@@ -312,8 +338,27 @@ export default function ProductSummary({ product }) {
 
   return (
     <div>
-      <h1 className="text-3xl leading-tight font-medium md:text-[2.75rem]">
-        {product.fullName ?? product.name}
+      <h1 className="text-2xl leading-tight font-medium lining-nums md:text-[2rem]">
+        {/* The heading font's "&" is very ornate, so it's set in the plainer sans font.
+            Hyphenated words stay whole, so "Cold-Pressed" can't split across two lines. */}
+        {(product.fullName ?? product.name)
+          .split(/(&|\S+-\S+)/)
+          .map((part, index) =>
+            index % 2 === 0 ? (
+              part
+            ) : (
+              <span
+                key={index}
+                className={
+                  part === "&"
+                    ? "font-(family-name:--font-montserrat) text-[0.85em]"
+                    : "whitespace-nowrap"
+                }
+              >
+                {part}
+              </span>
+            ),
+          )}
       </h1>
       {product.tagline && (
         <p className="mt-2 text-base text-ink/60 italic">{product.tagline}</p>
@@ -340,7 +385,7 @@ export default function ProductSummary({ product }) {
       </div>
 
       <p className="mt-8 text-lg leading-relaxed text-ink/75 md:mt-10">
-        {product.summary}
+        {product.shortDescription ?? product.summary}
       </p>
 
       {product.price !== undefined && (

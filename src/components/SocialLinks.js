@@ -41,6 +41,8 @@ export default function SocialLinks({ labelledBy, className = "" }) {
         <li key={social.label}>
           <a
             href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
             aria-label={social.label}
             className="flex size-10 items-center justify-center rounded-full border border-ink/30 transition-colors hover:border-ink hover:bg-ink hover:text-surface"
           >
