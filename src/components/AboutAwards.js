@@ -1,13 +1,17 @@
 import Image from "next/image";
 
 // Photos live in public/images/awards/. Give each a real description in `alt` when you know what it shows.
-const photos = [1, 2, 3, 4, 5, 6].map((n) => ({
+const ceremony = (n) => ({
   src: `/images/awards/bikila-award-photo-${n}.jpg`,
   alt: `Bikila Award ceremony, photo ${n} of 6`,
-}));
+});
+// The trophy photo is tall and narrow, so it gets the tall slot beside the large photo.
+const trophy = { src: "/images/bekila_awards.jpeg", alt: "The Bikila Award glass trophy" };
 
-// Mosaic layout on a 3x3 grid: the first photo is large, the rest fill around it.
-const spans = ["col-span-2 row-span-2", "", "", "", "", ""];
+// Mosaic on a 3x4 grid. Photos fill it in list order, so each one's place comes from its position here
+// and the matching entry in `spans`: a large photo, a tall one beside it, then smaller ones with one wide.
+const photos = [ceremony(1), trophy, ceremony(2), ceremony(3), ceremony(4), ceremony(6), ceremony(5)];
+const spans = ["col-span-2 row-span-2", "row-span-2", "", "", "", "col-span-2", ""];
 
 export default function AboutAwards() {
   return (
@@ -30,7 +34,7 @@ export default function AboutAwards() {
           </p>
         </div>
 
-        <div className="grid aspect-square grid-cols-3 grid-rows-3 gap-2 md:order-1 md:gap-3">
+        <div className="grid aspect-3/4 grid-cols-3 grid-rows-4 gap-2 md:order-1 md:gap-3">
           {photos.map(({ src, alt }, i) => (
             <div
               key={src}

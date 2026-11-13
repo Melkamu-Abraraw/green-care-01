@@ -3,7 +3,6 @@ const badges = [
   { top: "100%", main: "ORGANIC", bottom: "Roasted coffee oil", shape: "circle" },
   { top: "100%", main: "PURE", bottom: "Orange seed oil", shape: "hexagon" },
   { top: "Extraction", main: "COLD PRESSED", bottom: "Orange seed oil", shape: "octagon" },
-  { top: "Ingredients", main: "NON GMO", bottom: "Orange seed oil", shape: "circle" },
 ];
 
 // pathLength="1" lets CSS draw the outline in, whatever the shape's real length.
@@ -25,6 +24,32 @@ const shapes = {
   ),
 };
 
+function BadgeRing({ drawShape }) {
+  return (
+    <g fill="none" className="stroke-brand-gold">
+      <g className="award-ring" strokeWidth="2">
+        {drawShape(1)}
+      </g>
+      <g className="award-dashes" strokeWidth="1" strokeDasharray="2 3">
+        {drawShape(0.88)}
+      </g>
+    </g>
+  );
+}
+
+// The Bikila Award logo is a transparent cut-out used as a mask, so it takes the text color in light and dark mode.
+function LogoBadge() {
+  return (
+    <svg viewBox="0 0 160 160" className="award-badge mx-auto w-full max-w-40" role="img" aria-label="Bikila Award">
+      <BadgeRing drawShape={shapes.circle} />
+      <mask id="bikila-logo-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="160" height="160">
+        <image href="/images/bikila-award-logo.png" x="43" y="49" width="74" height="60" />
+      </mask>
+      <rect x="0" y="0" width="160" height="160" mask="url(#bikila-logo-mask)" className="fill-ink" />
+    </svg>
+  );
+}
+
 function Badge({ top, main, bottom, shape }) {
   const drawShape = shapes[shape];
 
@@ -35,14 +60,7 @@ function Badge({ top, main, bottom, shape }) {
       role="img"
       aria-label={`${main}, ${bottom}`}
     >
-      <g fill="none" className="stroke-brand-gold">
-        <g className="award-ring" strokeWidth="2">
-          {drawShape(1)}
-        </g>
-        <g className="award-dashes" strokeWidth="1" strokeDasharray="2 3">
-          {drawShape(0.88)}
-        </g>
-      </g>
+      <BadgeRing drawShape={drawShape} />
       <text x="80" y="54" textAnchor="middle" className="fill-ink text-[10px]">
         {top}
       </text>
@@ -124,8 +142,11 @@ export default function Standards() {
           </h2>
         </div>
         <ul className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-8 md:mt-14 lg:grid-cols-4">
+          <li data-reveal className="award-item">
+            <LogoBadge />
+          </li>
           {badges.map((badge, index) => (
-            <li key={badge.main} data-reveal style={{ "--reveal-order": index }} className="award-item">
+            <li key={badge.main} data-reveal style={{ "--reveal-order": index + 1 }} className="award-item">
               <Badge {...badge} />
             </li>
           ))}
