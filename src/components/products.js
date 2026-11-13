@@ -354,17 +354,71 @@ export const products = [
     ],
   },
   {
+    name: "Rue Plant",
+    fullName: "Rue Plant Oil",
+    slug: "rue-plant",
+    front: photo(
+      "rue_plant_oil_flatlay",
+      "Rue Plant Oil Premium Bottle_front.png",
+    ),
+    gallery: photos("rue_plant_oil_flatlay", [
+      "Rue Plant Oil Botanical Still Life-2.png",
+      "rue_plant_oil_botanical.png",
+      "rue_plant_oil_flatlay.png",
+    ]),
+    model: "/products/06_Rue_Plant_Oil/Rue_Plant_Oil.glb",
+    size: "100 mL",
+    color: "#7f9a4a",
+    category: skinCare,
+    tagline: "Natural Botanical Body Oil | Soothe • Nourish • Care",
+    summary:
+      "A botanical body oil made from Ruta graveolens (rue) plant seeds.",
+    description:
+      "Discover Ye-Green Care Naturals Rue Plant Oil, a botanical oil made from Ruta graveolens, commonly known as rue. Made in Ethiopia, this plant-based oil is designed for external body care. It can be incorporated into a gentle massage routine to help condition the skin and leave it feeling soft and moisturized. Traditionally associated with herbal wellness practices, rue is a distinctive botanical ingredient valued for its long history of use.",
+    ingredients: "Rue plant seeds (Ruta graveolens), with no additives.",
+    benefits: [
+      ["Botanical Skin Care", "Made with rue plant seed oil."],
+      ["Skin Conditioning", "Helps soften and moisturize the skin."],
+      [
+        "Massage Care",
+        "Suitable for gentle topical massage when used as directed.",
+      ],
+      ["Natural Botanical Ingredient", "Features Ruta graveolens plant seeds."],
+      ["No Additives", "As stated on the product label."],
+      ["Made in Ethiopia", "Inspired by Ethiopia's botanical traditions."],
+    ],
+    howToUse: [
+      "Apply a small amount to the intended area of skin.",
+      "Gently massage to distribute the oil.",
+      "The product label recommends application twice daily.",
+      "Wash your hands after application and avoid contact with eyes.",
+    ],
+    caution:
+      "For external use only. Avoid contact with eyes. Keep out of reach of children. Do not use during pregnancy or while taking blood-thinning medication. Rue oil may cause skin irritation and increased sensitivity to sunlight. Consult a healthcare professional before use, especially if you have a medical condition or take medication. Discontinue use if irritation occurs.",
+    storage: "Store in a cool, dry place away from direct sunlight.",
+    details: [
+      ["Brand", "Ye-Green Care Naturals"],
+      ["Botanical name", "Ruta graveolens"],
+      ["Ingredient", "Rue Plant Seeds"],
+      ["Product type", "Topical Botanical Body Oil"],
+      ["Purity", "100% Pure (label claim)"],
+      ["Additives", "No Additives (label claim)"],
+      ["Non-GMO", "As stated on the packaging"],
+      ["Origin", "Made in Ethiopia"],
+      ["Packaging", "Amber bottle with precision applicator nozzle"],
+    ],
+  },
+  {
     name: "Complete Green",
     fullName: "Complete Green Hair Oil",
     slug: "complete-green",
     front: photo(
       "Complete Green Soursop Oil ",
-      "Complete Green Botanical Bottle front.png",
+      "complete-green-bottle-front.png",
     ),
     gallery: photos("Complete Green Soursop Oil ", [
-      "Complete Green Soursop Oil Spa Still Life.png",
-      "ChatGPT Image Nov 7, 2026, 12_10_24 PM-2.png",
-      "ChatGPT Image Nov 7, 2026, 12_10_23 PM-1.png",
+      "complete-green-bottle-angle.png",
+      "complete-green-bottle-back.png",
     ]),
     model: "/products/07_Complete_Green_Hair_Oil/Complete_Green_Hair_Oil.glb",
     size: "150 mL",
@@ -429,69 +483,6 @@ export const products = [
       ["Bottled in", "Canada"],
       ["Non-GMO", "As stated on the label"],
       ["Packaging", "Amber bottle with precision applicator nozzle"],
-    ],
-  },
-  {
-    name: "Re-Black Hair",
-    fullName: "RE-BLACK Hair Oil",
-    slug: "re-black-hair",
-    front: photo(
-      "Re-Black Hair Oil",
-      "Luxury Re-Black Hair Oil Bottle_front.png",
-    ),
-    gallery: photos("Re-Black Hair Oil", [
-      "Re-Black Hair Oil Natural Care-1.png",
-      "Ye-Green Re-Black Hair Oil Bottle.png",
-    ]),
-    model: "/products/04_Re_Black_Hair_Oil/Re_Black_Hair_Oil.glb",
-    size: "150 mL",
-    color: "#d7a229",
-    category: hairCare,
-    tagline: "Natural Hair & Scalp Care | Nourish • Strengthen • Revitalize",
-    summary:
-      "A hair and scalp oil with anti-aging roots and false yam for darker-looking hair.",
-    description:
-      "Give your hair the care it deserves with Ye-Green Care Naturals RE-BLACK Hair Oil. Made in Ethiopia with anti-aging roots and false yam, this specially formulated hair oil is designed to nourish the scalp, condition the hair, and support the appearance of naturally healthy, darker-looking hair. Ideal for regular scalp massages and hair treatments, RE-BLACK Hair Oil helps maintain soft, manageable hair while supporting your natural hair care routine.",
-    ingredients: "Anti-aging roots and false yam, 100% pure with no additives.",
-    benefits: [
-      [
-        "Supports Darker-Looking Hair",
-        "Helps maintain the appearance of your natural hair colour.",
-      ],
-      [
-        "Nourishes Hair & Scalp",
-        "Helps moisturize the scalp and condition dry hair.",
-      ],
-      [
-        "Strengthens Hair Appearance",
-        "Helps hair feel smoother and more manageable.",
-      ],
-      [
-        "Supports Hair Depth",
-        "Helps maintain a rich, healthy-looking appearance.",
-      ],
-      ["Scalp Conditioning", "Suitable for regular scalp massages."],
-      ["Revitalizing Care", "Helps leave hair feeling soft and refreshed."],
-    ],
-    howToUse: [
-      "Apply a small amount directly to the affected areas of your scalp.",
-      "Gently massage to distribute the oil evenly.",
-      "The label recommends daily application to affected areas, with hair washing every three days.",
-      "Use twice a week as a dedicated hair treatment.",
-    ],
-    caution:
-      "For external use only. Avoid contact with eyes. Keep out of reach of children. Perform a patch test before first use and discontinue use if irritation occurs.",
-    storage: "Store in a cool, dry place away from direct sunlight.",
-    details: [
-      ["Brand", "Ye-Green Care Naturals"],
-      ["Ingredients listed", "Anti-aging roots and false yam"],
-      ["Purity", "100% Pure (label claim)"],
-      ["Additives", "No additives (label claim)"],
-      ["Non-GMO", "As stated on the packaging"],
-      ["Origin", "Made in Ethiopia"],
-      ["Product type", "Hair & Scalp Oil"],
-      ["Packaging", "Amber bottle with precision applicator nozzle"],
-      ["Shelf life", "24 months after opening, as indicated on the label"],
     ],
   },
 ];

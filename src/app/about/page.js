@@ -1,4 +1,5 @@
-import AboutIntro from "@/components/AboutIntro";
+import AboutAwards from "@/components/AboutAwards";
+import AboutIntro from"@/components/AboutIntro";
 import AboutSlideshow from "@/components/AboutSlideshow";
 import AboutStatement from "@/components/AboutStatement";
 import AboutStats from "@/components/AboutStats";
@@ -29,6 +30,7 @@ export default function AboutPage() {
         <AboutStats />
         <AboutSlideshow />
         <AboutTeam />
+        <AboutAwards />
         <AboutStatement />
       </main>
     </PageTransition>
